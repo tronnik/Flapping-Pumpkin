@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Flapping_Pumkin_Project", "Flapping_Pumkin_Project\Flapping_Pumkin_Project.vcxproj", "{426B81EC-21F6-48A8-BEBF-9C643212B540}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Flapping_Pumkin_Project", "Flapping_Pumkin_Project.vcxproj", "{426B81EC-21F6-48A8-BEBF-9C643212B540}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
