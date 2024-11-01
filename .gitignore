@@ -1,0 +1,31 @@
+# Folders
+Flapping_Pumkin_Solution/Debug/
+Flapping_Pumkin_Solution/.vs/
+Flapping_Pumkin_Solution/Debug/
+Flapping_Pumkin_Solution/x64/
+Flapping_Pumkin_Solution/bin/
+Flapping_Pumkin_Solution/obj/
+
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+
+# Fortran module files
+*.mod
+*.smod
+
+
+# Executables
+*.exe
+*.out
+*.app
