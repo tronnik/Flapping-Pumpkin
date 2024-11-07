@@ -16,6 +16,7 @@ namespace Game
 
 	player::createPlayer player;
 	obstacle::CreateObstacle obstacleDown;
+	obstacle::CreateObstacle obstacleUp;
 
 	Texture2D ghost;
 	Rectangle ghostFrameRec;
@@ -30,7 +31,8 @@ namespace Game
 	void initGame()
 	{
 		player::initPlayer(player);
-		obstacle::initObstacle(obstacleDown);
+		obstacle::initObstacleDown(obstacleDown);
+		obstacle::initObstacleUp(obstacleUp);
 
 		ghost = LoadTexture("res/game/ghostx2.png");
 		ghostFrameRec = { 0.0f, 0.0f, static_cast<float>(ghost.width / 8), static_cast<float>(ghost.height) };
@@ -87,10 +89,15 @@ namespace Game
 				}
 
 				obstacleDown.position.x -= obstacleDown.speed * GetFrameTime();
+				obstacleUp.position.x -= obstacleUp.speed * GetFrameTime();
 
 				if (obstacleDown.position.x < 0 - obstacleDown.size.x)
 				{
-					obstacle::updateObstacle(obstacleDown);
+					obstacle::updateObstacleDown(obstacleDown);
+				}
+				if (obstacleUp.position.x < 0 - obstacleUp.size.x)
+				{
+					obstacle::updateObstacleUp(obstacleUp);
 				}
 
 				movePlayer(player);
@@ -100,14 +107,26 @@ namespace Game
 				{
 					player.playerbody.y = (Globals::Screen.size.y / 2) - 20;
 					player.lives -= 1;
-					obstacle::updateObstacle(obstacleDown);
+					obstacle::updateObstacleDown(obstacleDown);
+					obstacle::updateObstacleUp(obstacleUp);
 					pause = true;
 				}
+				if (collisions::rectangleRectangle(player.playerbody.x, player.playerbody.y, player.playerbody.width, player.playerbody.height,
+					obstacleUp.position.x, obstacleUp.position.y, obstacleUp.size.x, obstacleUp.size.y))
+				{
+					player.playerbody.y = (Globals::Screen.size.y / 2) - 20;
+					player.lives -= 1;
+					obstacle::updateObstacleDown(obstacleDown);
+					obstacle::updateObstacleUp(obstacleUp);
+					pause = true;
+				}
+
 				if (player.playerbody.y > Globals::Screen.size.y - (player.playerbody.height / 2))
 				{
 					player.playerbody.y = (Globals::Screen.size.y / 2) - 20;
 					player.lives -= 1;
-					obstacle::updateObstacle(obstacleDown);
+					obstacle::updateObstacleDown(obstacleDown);
+					obstacle::updateObstacleUp(obstacleUp);
 					pause = true;
 				}
 				ghostPosition = { player.playerbody.x - (player.playerbody.width / 2), player.playerbody.y - (player.playerbody.height / 2) };
@@ -118,7 +137,11 @@ namespace Game
 	void drawGame()
 	{
 		DrawRectangle(static_cast<int>(obstacleDown.position.x), static_cast<int>(obstacleDown.position.y), static_cast<int>(obstacleDown.size.x), static_cast<int>(obstacleDown.size.y), RED);
+		DrawRectangle(static_cast<int>(obstacleUp.position.x), static_cast<int>(obstacleUp.position.y), static_cast<int>(obstacleUp.size.x), static_cast<int>(obstacleUp.size.y), RED);
+
+#ifdef _DEBUG
 		DrawRectangle(static_cast<int>(player.playerbody.x), static_cast<int>(player.playerbody.y), static_cast<int>(player.playerbody.width), static_cast<int>(player.playerbody.height), RED);
+#endif
 
 		if (gameOver == true)
 	    {

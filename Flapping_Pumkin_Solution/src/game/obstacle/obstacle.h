@@ -14,7 +14,9 @@ namespace obstacle
 		int stride;
 	};
 
-	void initObstacle(CreateObstacle& obstacle);
-	void updateObstacle(CreateObstacle& obstacle);
+	void initObstacleDown(CreateObstacle& obstacle);
+	void initObstacleUp(CreateObstacle& obstacle);
+	void updateObstacleDown(CreateObstacle& obstacle);
+	void updateObstacleUp(CreateObstacle& obstacle);
 }
 

@@ -43,7 +43,9 @@ namespace Credits
 	{
 		DrawTexture(returnBttn.buttonText[returnBttn.buttonFrame], static_cast<int>(returnBttn.position.x), static_cast<int>(returnBttn.position.y), WHITE);
 
+#ifdef _DEBUG
 		DrawRectangle(static_cast<int>(pointer.x), static_cast<int>(pointer.y), static_cast<int>(pointer.width), static_cast<int>(pointer.height), RED);
+#endif
 
 		DrawText("Created by Estanislao!", 50, 400, 30, WHITE);
 		DrawText("ghost by ToffeBunny on Itch.io (link pending)", 50, 450, 30, WHITE);
