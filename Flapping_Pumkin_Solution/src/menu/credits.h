@@ -9,4 +9,6 @@ namespace Credits
 	void drawCredits();
 
 	void unloadCredits();
+
+	void initButtons();
 }

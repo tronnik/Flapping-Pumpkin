@@ -2,6 +2,8 @@
 
 #include "raylib.h"
 
+#include "gameManager.h"
+
 #include "globals/collisionsManager.h"
 #include "globals/globals.h"
 
@@ -11,7 +13,6 @@
 namespace Game
 {
 	const int maxAmountOfObstacles = 1;
-	const float ver = 0.1f;
 
 	player::createPlayer player;
 	obstacle::CreateObstacle obstacleDown;
@@ -49,6 +50,10 @@ namespace Game
 			if (IsKeyPressed(KEY_ENTER))
 			{
 				initGame();
+			}
+			if (IsKeyPressed(KEY_SPACE))
+			{
+				gameManager::CurrentScreen = gameManager::menu;
 			}
 		}
 
@@ -118,7 +123,8 @@ namespace Game
 		if (gameOver == true)
 	    {
 			DrawText("GameOver, Press enter to replay!", 230, 200, 20, WHITE);
-			DrawText("If not, Press esc to exit!", 230, 230, 20, WHITE);
+			DrawText("If not, Press space for menu!", 230, 230, 20, WHITE);
+			DrawText("or Press esc to exit!", 230, 260, 20, WHITE);
 		}
 		if (pause == true && gameOver == false)
 		{
@@ -126,7 +132,6 @@ namespace Game
 		}
 
 		DrawTextureRec(ghost, ghostFrameRec, ghostPosition, WHITE);
-		DrawText(TextFormat("Version: %.1f", ver), 0, 0, 20, RED);
 	}
 
 	void unloadGame()

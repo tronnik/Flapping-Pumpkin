@@ -6,6 +6,7 @@
 #include "globals/globals.h"
 
 #include "menu/menu.h"
+#include "menu/credits.h"
 #include "game/game.h"
 
 using namespace std;
@@ -20,7 +21,7 @@ namespace gameManager
     {
         init();
 
-        SetTargetFPS(60);
+        //SetTargetFPS(60);
 
         while (isRunning && !WindowShouldClose())
         {
@@ -42,8 +43,8 @@ namespace gameManager
         Globals::initGlobals();
         InitWindow(static_cast<int>(Globals::Screen.size.x), static_cast<int>(Globals::Screen.size.y), Globals::Screen.name);
 
-        Game::initGame();
-        gameManager::CurrentScreen = game;
+        Menu::initMenu();
+        gameManager::CurrentScreen = menu;
     }
 
     void update()
@@ -57,7 +58,7 @@ namespace gameManager
             Game::updateGame();
             break;
         case credits:
-            Menu::updateMenu();
+            Credits::updateCredits();
             break;
         default:
             break;
@@ -79,7 +80,7 @@ namespace gameManager
         }
         if (CurrentScreen == credits)
         {
-            Menu::drawMenu();
+            Credits::drawCredits();
         }
         EndDrawing();
     }
@@ -88,6 +89,7 @@ namespace gameManager
     {
         Menu::unloadMenu();
         Game::unloadGame();
+        Credits::unloadCredits();
         CloseWindow();
     }
 

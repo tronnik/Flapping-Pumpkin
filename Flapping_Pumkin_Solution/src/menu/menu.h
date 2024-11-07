@@ -12,4 +12,6 @@ namespace Menu
 
 	void unloadMenu();
 
+	void initButtons();
+
 }
