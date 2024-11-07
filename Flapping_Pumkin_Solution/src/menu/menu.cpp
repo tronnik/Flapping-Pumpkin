@@ -13,7 +13,7 @@
 
 namespace Menu
 {
-	const float ver = 0.1f;
+	const float ver = 0.2f;
 
 	button::createButton playBttn;
 	button::createButton creditsBttn;
