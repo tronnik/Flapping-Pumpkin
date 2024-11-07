@@ -16,6 +16,13 @@ namespace Game
 	player::createPlayer player;
 	obstacle::CreateObstacle obstacleDown;
 
+	Texture2D ghost;
+	Rectangle ghostFrameRec;
+	Vector2 ghostPosition;
+	int ghostCurrentFrame;
+	int ghostFramesCounter;
+	int ghostFramesSpeed;
+
 	bool pause;
 	bool gameOver;
 
@@ -23,6 +30,13 @@ namespace Game
 	{
 		player::initPlayer(player);
 		obstacle::initObstacle(obstacleDown);
+
+		ghost = LoadTexture("res/game/ghostx2.png");
+		ghostFrameRec = { 0.0f, 0.0f, static_cast<float>(ghost.width / 8), static_cast<float>(ghost.height) };
+		ghostPosition = { player.playerbody.x - (player.playerbody.width / 2), player.playerbody.y - (player.playerbody.height / 2) };
+		ghostCurrentFrame = 0;
+		ghostFramesCounter = 0;
+		ghostFramesSpeed = 8;
 
 		gameOver = false;
 		pause = true;
@@ -56,6 +70,16 @@ namespace Game
 			if (pause == false)
 			{
 
+				ghostFramesCounter++;
+				if (ghostFramesCounter >= (60 / ghostFramesSpeed))
+				{
+					ghostFramesCounter = 0;
+					ghostCurrentFrame++;
+
+					if (ghostCurrentFrame > 5) ghostCurrentFrame = 0;
+
+					ghostFrameRec.x = (float)ghostCurrentFrame * (float)ghost.width / 8;
+				}
 
 				obstacleDown.position.x -= obstacleDown.speed * GetFrameTime();
 
@@ -81,14 +105,15 @@ namespace Game
 					obstacle::updateObstacle(obstacleDown);
 					pause = true;
 				}
+				ghostPosition = { player.playerbody.x - (player.playerbody.width / 2), player.playerbody.y - (player.playerbody.height / 2) };
 			}
 		}
 	}
 
 	void drawGame()
 	{
-		DrawRectangle(static_cast<int>(obstacleDown.position.x), static_cast<int>(obstacleDown.position.y), static_cast<int>(obstacleDown.size.x), static_cast<int>(obstacleDown.size.y), WHITE);
-		DrawRectangle(static_cast<int>(player.playerbody.x), static_cast<int>(player.playerbody.y), static_cast<int>(player.playerbody.width), static_cast<int>(player.playerbody.height), WHITE);
+		DrawRectangle(static_cast<int>(obstacleDown.position.x), static_cast<int>(obstacleDown.position.y), static_cast<int>(obstacleDown.size.x), static_cast<int>(obstacleDown.size.y), RED);
+		DrawRectangle(static_cast<int>(player.playerbody.x), static_cast<int>(player.playerbody.y), static_cast<int>(player.playerbody.width), static_cast<int>(player.playerbody.height), RED);
 
 		if (gameOver == true)
 	    {
@@ -99,11 +124,13 @@ namespace Game
 		{
 			DrawText("Pause On, Press SPACE to play!", 230, 200, 20, WHITE);
 		}
-		DrawText(TextFormat("Version: %.1f", ver), 0, 0, 20, WHITE);
+
+		DrawTextureRec(ghost, ghostFrameRec, ghostPosition, WHITE);
+		DrawText(TextFormat("Version: %.1f", ver), 0, 0, 20, RED);
 	}
 
 	void unloadGame()
 	{
-
+		UnloadTexture(ghost);
 	}
 }
