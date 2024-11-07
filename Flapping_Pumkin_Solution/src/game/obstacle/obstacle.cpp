@@ -36,6 +36,7 @@ namespace obstacle
 
 		obstacle.position = { Globals::Screen.size.x + obstacle.size.x, Globals::Screen.size.y - obstacle.size.y };
 
-		obstacle.speed +=  30 * GetFrameTime();
+		obstacle.speed +=  5;
+		obstacle.position.x = Globals::Screen.size.x + obstacle.size.x;
 	}
 }
