@@ -51,13 +51,13 @@ namespace gameManager
         switch (CurrentScreen)
         {
         case menu:
-            //Menu::updateMenu();
+            Menu::updateMenu();
             break;
         case game:
             Game::updateGame();
             break;
         case credits:
-           // Menu::updateMenu();
+            Menu::updateMenu();
             break;
         default:
             break;
@@ -71,7 +71,7 @@ namespace gameManager
 
         if (CurrentScreen == menu)
         {
-            //Menu::drawMenu();
+            Menu::drawMenu();
         }
         if (CurrentScreen == game)
         {
@@ -79,14 +79,14 @@ namespace gameManager
         }
         if (CurrentScreen == credits)
         {
-           // Menu::drawMenu();
+            Menu::drawMenu();
         }
         EndDrawing();
     }
 
     void close()
     {
-        //Menu::unloadMenu();
+        Menu::unloadMenu();
         Game::unloadGame();
         CloseWindow();
     }

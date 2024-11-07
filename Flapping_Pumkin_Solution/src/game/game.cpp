@@ -40,17 +40,31 @@ namespace Game
 
 		if (gameOver == false)
 		{
+			if (player.lives <= 0)
+			{
+				gameOver = true;
+			}
+
 			obstacle.position.x -= obstacle.speed * GetFrameTime();
+
 			if (obstacle.position.x < 0 - obstacle.size.x)
 			{
 				obstacle::updateObstacle(obstacle);
 				obstacle.position.x = Globals::Screen.size.x + obstacle.size.x;
 			}
+
 			movePlayer(player);
+
 			if (collisions::rectangleRectangle(player.playerbody.x, player.playerbody.y, player.playerbody.width, player.playerbody.height,
 			                                   obstacle.position.x, obstacle.position.y, obstacle.size.x, obstacle.size.y ))
 			{
-				gameOver = true;
+				player.playerbody.y = (Globals::Screen.size.y / 2) - 20;
+				player.lives -= 1;
+			}
+			if (player.playerbody.y > Globals::Screen.size.y - (player.playerbody.height / 2))
+			{
+				player.playerbody.y = (Globals::Screen.size.y / 2) - 20;
+				player.lives -= 1;
 			}
 		}
 	}
