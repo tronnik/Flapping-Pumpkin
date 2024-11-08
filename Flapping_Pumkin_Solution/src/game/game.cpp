@@ -73,7 +73,7 @@ namespace Game
 			}
 			if (IsKeyPressed(KEY_SPACE))
 			{
-				gameManager::CurrentScreen = gameManager::menu;
+				gameManager::currentscreen = gameManager::menu;
 			}
 		}
 

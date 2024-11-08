@@ -43,7 +43,7 @@ namespace Menu
 			if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 			{
 				Game::initGame();
-				gameManager::CurrentScreen = gameManager::game;		
+				gameManager::currentscreen = gameManager::game;
 			}
 		}
 
@@ -56,7 +56,7 @@ namespace Menu
 					Credits::initCredits();
 					creditsInitOk = true;
 				}
-				gameManager::CurrentScreen = gameManager::credits;
+				gameManager::currentscreen = gameManager::credits;
 			}
 		}
 

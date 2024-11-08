@@ -5,29 +5,22 @@
 namespace gameManager
 {
 	int run(void);
-
-	void init();
-
-	void update();
-
-	void draw();
-
-	void close();
-
 	void stop();
 
-	struct CreateScreen {
+	struct Screen 
+	{
 		const char* name;
 		Vector2 size;
 	};
 
-	enum CreateCurrentScreen
+	enum CurrentScreen
 	{
 		menu,
 		game,
 		credits,
 	};
 
-	extern CreateScreen Screen;
-	extern CreateCurrentScreen CurrentScreen;
+	extern Screen screen;
+	extern CurrentScreen currentscreen;
+
 }

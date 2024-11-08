@@ -14,7 +14,13 @@ using namespace std;
 
 namespace gameManager
 {
-    CreateCurrentScreen CurrentScreen;
+
+    static void init();
+    static void update();
+    static void draw();
+    static void close();
+
+    CurrentScreen currentscreen;
     bool isRunning = true;
 
     int run(void)
@@ -35,7 +41,7 @@ namespace gameManager
         return 0;
     }
 
-    void init()
+    static void init()
     {
         srand(static_cast<unsigned int>(time(NULL)));
         InitAudioDevice();
@@ -44,12 +50,12 @@ namespace gameManager
         InitWindow(static_cast<int>(Globals::Screen.size.x), static_cast<int>(Globals::Screen.size.y), Globals::Screen.name);
 
         Menu::initMenu();
-        gameManager::CurrentScreen = menu;
+        gameManager::currentscreen = menu;
     }
 
-    void update()
+    static void update()
     {
-        switch (CurrentScreen)
+        switch (currentscreen)
         {
         case menu:
             Menu::updateMenu();
@@ -65,27 +71,27 @@ namespace gameManager
         }
     }
 
-    void draw()
+    static void draw()
     {
         BeginDrawing();
         ClearBackground(BLACK);
 
-        if (CurrentScreen == menu)
+        if (currentscreen == menu)
         {
             Menu::drawMenu();
         }
-        if (CurrentScreen == game)
+        if (currentscreen == game)
         {
             Game::drawGame();
         }
-        if (CurrentScreen == credits)
+        if (currentscreen == credits)
         {
             Credits::drawCredits();
         }
         EndDrawing();
     }
 
-    void close()
+    static void close()
     {
         CloseAudioDevice();
         Menu::unloadMenu();
@@ -98,5 +104,4 @@ namespace gameManager
     {
         isRunning = false;
     }
-
 }

@@ -28,16 +28,3 @@ namespace player
 	}
 }
 
-/* 0.1
-	void movePlayer(createPlayer& player)
-{
-	if (IsKeyDown(KEY_DOWN))
-	{
-		player.playerbody.y += player.gravity * GetFrameTime();
-	}
-	if (IsKeyDown(KEY_UP))
-	{
-		player.playerbody.y -= player.gravity * GetFrameTime();
-	}
-}
-*/

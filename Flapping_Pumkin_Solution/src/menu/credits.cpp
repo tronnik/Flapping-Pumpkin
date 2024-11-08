@@ -32,7 +32,7 @@ namespace Credits
 		{
 			if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 			{
-				gameManager::CurrentScreen = gameManager::menu;
+				gameManager::currentscreen = gameManager::menu;
 			}
 		}
 
