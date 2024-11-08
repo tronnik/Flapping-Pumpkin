@@ -8,9 +8,9 @@ namespace player
 	{
 		Rectangle playerbody;
 
-		float gravity = 98.0f;
+		float gravity = 0.0f;
 
-		float jumpSpeed = gravity * 3;
+		float speed = 0.0f;
 
 		int lives = 0;;
 

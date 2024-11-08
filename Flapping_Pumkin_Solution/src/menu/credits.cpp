@@ -48,8 +48,9 @@ namespace Credits
 #endif
 
 		DrawText("Created by Estanislao!", 50, 420, 20, WHITE);
-		DrawText("ghost by ToffeBunny on Itch.io (link pending)", 50, 450, 20, WHITE);
-		DrawText("Parallax by craftpix on Itch.io (link pending)", 50, 480, 20, WHITE);
+		DrawText("Created by Valentin!", 50, 450, 20, WHITE);
+		DrawText("ghost by ToffeBunny on Itch.io (link pending)", 50, 480, 20, WHITE);
+		DrawText("Parallax by craftpix on Itch.io (link pending)", 50, 510, 20, WHITE);
 	}
 
 	void unloadCredits()
