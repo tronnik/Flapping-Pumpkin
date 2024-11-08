@@ -167,8 +167,20 @@ namespace Game
 
 	void drawGame()
 	{
-		DrawTextureEx(background1,Vector2 { scrolling1, 20 }, 0.0f, 2.0f, WHITE);
-		DrawTextureEx(background1,Vector2 { background1.width * 2 + scrolling1, 20 }, 0.0f, 2.0f, WHITE);
+		DrawTextureEx(background1, Vector2{ scrolling1, 20 }, 0.0f, 2.0f, WHITE);
+		DrawTextureEx(background1, Vector2{ background1.width * 2 + scrolling1, 20 }, 0.0f, 2.0f, WHITE);
+
+		DrawTextureEx(background2, Vector2{ scrolling2, 20 }, 0.0f, 2.0f, WHITE);
+		DrawTextureEx(background2, Vector2{ background2.width * 2 + scrolling2, 20 }, 0.0f, 2.0f, WHITE);
+
+		DrawTextureEx(background3, Vector2{ scrolling3, 20 }, 0.0f, 2.0f, WHITE);
+		DrawTextureEx(background3, Vector2{ background3.width * 2 + scrolling3, 20 }, 0.0f, 2.0f, WHITE);
+
+		DrawTextureEx(background4, Vector2{ scrolling4, 20 }, 0.0f, 2.0f, WHITE);
+		DrawTextureEx(background4, Vector2{ background4.width * 2 + scrolling4, 20 }, 0.0f, 2.0f, WHITE);
+
+		DrawTextureEx(background5, Vector2{ scrolling5, 20 }, 0.0f, 2.0f, WHITE);
+		DrawTextureEx(background5, Vector2{ background5.width * 2 + scrolling5, 20 }, 0.0f, 2.0f, WHITE);
 
 		DrawRectangle(static_cast<int>(obstacleDown.position.x), static_cast<int>(obstacleDown.position.y), static_cast<int>(obstacleDown.size.x), static_cast<int>(obstacleDown.size.y), RED);
 		DrawRectangle(static_cast<int>(obstacleUp.position.x), static_cast<int>(obstacleUp.position.y), static_cast<int>(obstacleUp.size.x), static_cast<int>(obstacleUp.size.y), RED);
