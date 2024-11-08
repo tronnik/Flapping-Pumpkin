@@ -13,7 +13,8 @@
 
 namespace Menu
 {
-	const float ver = 0.2f;
+
+	const float ver = 0.3f;
 
 	button::createButton playBttn;
 	button::createButton creditsBttn;
@@ -67,7 +68,6 @@ namespace Menu
 		DrawTexture(creditsBttn.buttonText[creditsBttn.buttonFrame], static_cast<int>(creditsBttn.position.x), static_cast<int>(creditsBttn.position.y), WHITE);
 
 		DrawText(TextFormat("Version: %.1f", ver), 0, 0, 20, RED);
-
 #ifdef _DEBUG
 		DrawRectangle(static_cast<int>(pointer.x), static_cast<int>(pointer.y), static_cast<int>(pointer.width), static_cast<int>(pointer.height), RED);
 #endif

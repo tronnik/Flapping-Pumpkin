@@ -51,13 +51,13 @@ namespace Game
 		ghostPosition = { player.playerbody.x - (player.playerbody.width / 2), player.playerbody.y - (player.playerbody.height / 2) };
 		ghostCurrentFrame = 0;
 		ghostFramesCounter = 0;
-		ghostFramesSpeed = 8;
+		ghostFramesSpeed = 6;
 
 		background1 = LoadTexture("res/game/enviroment/layers/1.png");
-		background2 = LoadTexture("res/game/enviroment/layers/2.png");
-		background3 = LoadTexture("res/game/enviroment/layers/3.png");
-		background4 = LoadTexture("res/game/enviroment/layers/4.png");
-		background5 = LoadTexture("res/game/enviroment/layers/5.png");
+		background2 = LoadTexture("res/game/enviroment/layers/3.png");
+		background3 = LoadTexture("res/game/enviroment/layers/4.png");
+		background4 = LoadTexture("res/game/enviroment/layers/5.png");
+		background5 = LoadTexture("res/game/enviroment/layers/7.png");
 
 		gameOver = false;
 		pause = true;
@@ -100,17 +100,17 @@ namespace Game
 				obstacleDown.position.x -= obstacleDown.speed * GetFrameTime();
 				obstacleUp.position.x -= obstacleUp.speed * GetFrameTime();
 
-				scrolling1 -= 0.3f;
-				scrolling2 -= 0.6f;
-				scrolling3 -= 0.9f;
-				scrolling4 -= 1.2f;
-				scrolling5 -= 1.5f;
+				scrolling1 -= 100.0f * GetFrameTime();
+				scrolling2 -= 150.0f * GetFrameTime();
+				scrolling3 -= 200.0f * GetFrameTime();
+				scrolling4 -= 250.0f * GetFrameTime();
+				scrolling5 -= 300.0f * GetFrameTime();
 
-				if (scrolling1 <= -background1.width * 2) scrolling1 = 0;
-				if (scrolling2 <= -background2.width * 2) scrolling2 = 0;
-				if (scrolling3 <= -background3.width * 2) scrolling3 = 0;
-				if (scrolling4 <= -background4.width * 2) scrolling4 = 0;
-				if (scrolling5 <= -background5.width * 2) scrolling5 = 0;
+				if (scrolling1 <= -background1.width / 2) scrolling1 = 0;
+				if (scrolling2 <= -background2.width / 2) scrolling2 = 0;
+				if (scrolling3 <= -background3.width / 2) scrolling3 = 0;
+				if (scrolling4 <= -background4.width / 2) scrolling4 = 0;
+				if (scrolling5 <= -background5.width / 2) scrolling5 = 0;
 
 				if (ghostFramesCounter >= (60 / ghostFramesSpeed))
 				{
@@ -167,20 +167,20 @@ namespace Game
 
 	void drawGame()
 	{
-		DrawTextureEx(background1, Vector2{ scrolling1, 20 }, 0.0f, 2.0f, WHITE);
-		DrawTextureEx(background1, Vector2{ background1.width * 2 + scrolling1, 20 }, 0.0f, 2.0f, WHITE);
+		DrawTextureEx(background1, Vector2{ scrolling1, 20 }, 0.0f, 0.5f, WHITE);
+		DrawTextureEx(background1, Vector2{ background1.width / 2 + scrolling1, 20 }, 0.0f, 0.5f, WHITE);
 
-		DrawTextureEx(background2, Vector2{ scrolling2, 20 }, 0.0f, 2.0f, WHITE);
-		DrawTextureEx(background2, Vector2{ background2.width * 2 + scrolling2, 20 }, 0.0f, 2.0f, WHITE);
+		DrawTextureEx(background2, Vector2{ scrolling2, 20 }, 0.0f, 0.5f, WHITE);
+		DrawTextureEx(background2, Vector2{ background2.width / 2 + scrolling2, 20 }, 0.0f, 0.5f, WHITE);
 
-		DrawTextureEx(background3, Vector2{ scrolling3, 20 }, 0.0f, 2.0f, WHITE);
-		DrawTextureEx(background3, Vector2{ background3.width * 2 + scrolling3, 20 }, 0.0f, 2.0f, WHITE);
+		DrawTextureEx(background3, Vector2{ scrolling3, 20 }, 0.0f, 0.5f, WHITE);
+		DrawTextureEx(background3, Vector2{ background3.width / 2 + scrolling3, 20 }, 0.0f, 0.5f, WHITE);
 
-		DrawTextureEx(background4, Vector2{ scrolling4, 20 }, 0.0f, 2.0f, WHITE);
-		DrawTextureEx(background4, Vector2{ background4.width * 2 + scrolling4, 20 }, 0.0f, 2.0f, WHITE);
+		DrawTextureEx(background4, Vector2{ scrolling4, 20 }, 0.0f, 0.5f, WHITE);
+		DrawTextureEx(background4, Vector2{ background4.width / 2 + scrolling4, 20 }, 0.0f, 0.5f, WHITE);
 
-		DrawTextureEx(background5, Vector2{ scrolling5, 20 }, 0.0f, 2.0f, WHITE);
-		DrawTextureEx(background5, Vector2{ background5.width * 2 + scrolling5, 20 }, 0.0f, 2.0f, WHITE);
+		DrawTextureEx(background5, Vector2{ scrolling5, 20 }, 0.0f, 0.5f, WHITE);
+		DrawTextureEx(background5, Vector2{ background5.width / 2 + scrolling5, 20 }, 0.0f, 0.5f, WHITE);
 
 		DrawRectangle(static_cast<int>(obstacleDown.position.x), static_cast<int>(obstacleDown.position.y), static_cast<int>(obstacleDown.size.x), static_cast<int>(obstacleDown.size.y), RED);
 		DrawRectangle(static_cast<int>(obstacleUp.position.x), static_cast<int>(obstacleUp.position.y), static_cast<int>(obstacleUp.size.x), static_cast<int>(obstacleUp.size.y), RED);

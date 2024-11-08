@@ -8,7 +8,7 @@ namespace player
 	{
 		player.alive = true;
 		player.lives = 3;
-		player.gravity = 180;
+		player.gravity = 220;
 		player.jumpSpeed = static_cast<float>( player.gravity * 2.5);
 		player.playerbody = { 60, (Globals::Screen.size.y / 2) - 20, 40, 40}; 
 	}
