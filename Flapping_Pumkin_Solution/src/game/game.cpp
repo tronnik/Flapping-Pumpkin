@@ -28,6 +28,18 @@ namespace Game
 	bool pause;
 	bool gameOver;
 
+
+	Texture2D background1;
+	Texture2D background2;
+	Texture2D background3;
+	Texture2D background4;
+	Texture2D background5;
+	float scrolling1 = 0.0f;
+	float scrolling2 = 0.0f;
+	float scrolling3 = 0.0f;
+	float scrolling4 = 0.0f;
+	float scrolling5 = 0.0f;
+
 	void initGame()
 	{
 		player::initPlayer(player);
@@ -40,6 +52,12 @@ namespace Game
 		ghostCurrentFrame = 0;
 		ghostFramesCounter = 0;
 		ghostFramesSpeed = 8;
+
+		background1 = LoadTexture("res/game/enviroment/layers/1.png");
+		background2 = LoadTexture("res/game/enviroment/layers/2.png");
+		background3 = LoadTexture("res/game/enviroment/layers/3.png");
+		background4 = LoadTexture("res/game/enviroment/layers/4.png");
+		background5 = LoadTexture("res/game/enviroment/layers/5.png");
 
 		gameOver = false;
 		pause = true;
@@ -78,6 +96,22 @@ namespace Game
 			{
 
 				ghostFramesCounter++;
+
+				obstacleDown.position.x -= obstacleDown.speed * GetFrameTime();
+				obstacleUp.position.x -= obstacleUp.speed * GetFrameTime();
+
+				scrolling1 -= 0.3f;
+				scrolling2 -= 0.6f;
+				scrolling3 -= 0.9f;
+				scrolling4 -= 1.2f;
+				scrolling5 -= 1.5f;
+
+				if (scrolling1 <= -background1.width * 2) scrolling1 = 0;
+				if (scrolling2 <= -background2.width * 2) scrolling2 = 0;
+				if (scrolling3 <= -background3.width * 2) scrolling3 = 0;
+				if (scrolling4 <= -background4.width * 2) scrolling4 = 0;
+				if (scrolling5 <= -background5.width * 2) scrolling5 = 0;
+
 				if (ghostFramesCounter >= (60 / ghostFramesSpeed))
 				{
 					ghostFramesCounter = 0;
@@ -87,9 +121,6 @@ namespace Game
 
 					ghostFrameRec.x = (float)ghostCurrentFrame * (float)ghost.width / 8;
 				}
-
-				obstacleDown.position.x -= obstacleDown.speed * GetFrameTime();
-				obstacleUp.position.x -= obstacleUp.speed * GetFrameTime();
 
 				if (obstacleDown.position.x < 0 - obstacleDown.size.x)
 				{
@@ -136,6 +167,9 @@ namespace Game
 
 	void drawGame()
 	{
+		DrawTextureEx(background1,Vector2 { scrolling1, 20 }, 0.0f, 2.0f, WHITE);
+		DrawTextureEx(background1,Vector2 { background1.width * 2 + scrolling1, 20 }, 0.0f, 2.0f, WHITE);
+
 		DrawRectangle(static_cast<int>(obstacleDown.position.x), static_cast<int>(obstacleDown.position.y), static_cast<int>(obstacleDown.size.x), static_cast<int>(obstacleDown.size.y), RED);
 		DrawRectangle(static_cast<int>(obstacleUp.position.x), static_cast<int>(obstacleUp.position.y), static_cast<int>(obstacleUp.size.x), static_cast<int>(obstacleUp.size.y), RED);
 
@@ -160,5 +194,10 @@ namespace Game
 	void unloadGame()
 	{
 		UnloadTexture(ghost);
+		UnloadTexture(background1);
+		UnloadTexture(background2);
+		UnloadTexture(background3);
+		UnloadTexture(background4);
+		UnloadTexture(background5);
 	}
 }

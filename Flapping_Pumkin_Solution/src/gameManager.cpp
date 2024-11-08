@@ -87,6 +87,7 @@ namespace gameManager
 
     void close()
     {
+        CloseAudioDevice();
         Menu::unloadMenu();
         Game::unloadGame();
         Credits::unloadCredits();
