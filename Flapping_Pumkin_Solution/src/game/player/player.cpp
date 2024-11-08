@@ -28,13 +28,6 @@ namespace player
 		{
 			player.speed = -200.f;
 		}
-		
-		//
-		//if (IsKeyDown(KEY_SPACE))
-		//{
-		//	player.playerbody.y -= player.jumpSpeed * GetFrameTime(); 
-		//}
-		//else player.playerbody.y += player.gravity * GetFrameTime();
 	}
 }
 
