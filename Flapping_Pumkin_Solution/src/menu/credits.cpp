@@ -47,8 +47,9 @@ namespace Credits
 		DrawRectangle(static_cast<int>(pointer.x), static_cast<int>(pointer.y), static_cast<int>(pointer.width), static_cast<int>(pointer.height), RED);
 #endif
 
-		DrawText("Created by Estanislao!", 50, 400, 30, WHITE);
-		DrawText("ghost by ToffeBunny on Itch.io (link pending)", 50, 450, 30, WHITE);
+		DrawText("Created by Estanislao!", 50, 420, 20, WHITE);
+		DrawText("ghost by ToffeBunny on Itch.io (link pending)", 50, 450, 20, WHITE);
+		DrawText("Parallax by craftpix on Itch.io (link pending)", 50, 480, 20, WHITE);
 	}
 
 	void unloadCredits()
