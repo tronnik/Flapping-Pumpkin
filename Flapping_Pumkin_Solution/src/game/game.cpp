@@ -15,6 +15,7 @@ namespace Game
 	const int maxAmountOfObstacles = 1;
 
 	player::createPlayer player;
+	player::createPlayer player2;
 	obstacle::CreateObstacle obstacleDown;
 	obstacle::CreateObstacle obstacleUp;
 
@@ -24,6 +25,12 @@ namespace Game
 	int ghostCurrentFrame;
 	int ghostFramesCounter;
 	int ghostFramesSpeed;
+
+	Rectangle ghostFrameRec2;
+	Vector2 ghostPosition2;
+	int ghostCurrentFrame2;
+	int ghostFramesCounter2;
+	int ghostFramesSpeed2;
 
 	bool pause;
 	bool gameOver;
@@ -43,15 +50,23 @@ namespace Game
 	void initGame()
 	{
 		player::initPlayer(player);
+		player::initPlayer(player2);
+
 		obstacle::initObstacleDown(obstacleDown);
 		obstacle::initObstacleUp(obstacleUp);
 
-		ghost = LoadTexture("res/game/ghostx2.png");
+		ghost = LoadTexture("res/game/ghost.png");
 		ghostFrameRec = { 0.0f, 0.0f, static_cast<float>(ghost.width / 8), static_cast<float>(ghost.height) };
 		ghostPosition = { player.playerbody.x - (player.playerbody.width / 2), player.playerbody.y - (player.playerbody.height / 2) };
 		ghostCurrentFrame = 0;
 		ghostFramesCounter = 0;
 		ghostFramesSpeed = 6;
+
+		ghostFrameRec2 = { 0.0f, 0.0f, static_cast<float>(ghost.width / 8), static_cast<float>(ghost.height) };
+		ghostPosition2 = { player2.playerbody.x - (player2.playerbody.width / 2), player2.playerbody.y - (player2.playerbody.height / 2) };
+		ghostCurrentFrame2 = 0;
+		ghostFramesCounter2 = 0;
+		ghostFramesSpeed2 = 6;
 
 		background1 = LoadTexture("res/game/enviroment/layers/1.png");
 		background2 = LoadTexture("res/game/enviroment/layers/3.png");
@@ -96,6 +111,7 @@ namespace Game
 			{
 
 				ghostFramesCounter++;
+				ghostFramesCounter2++;
 
 				obstacleDown.position.x -= obstacleDown.speed * GetFrameTime();
 				obstacleUp.position.x -= obstacleUp.speed * GetFrameTime();
@@ -112,6 +128,8 @@ namespace Game
 				if (scrolling4 <= -background4.width / 2) scrolling4 = 0;
 				if (scrolling5 <= -background5.width / 2) scrolling5 = 0;
 
+
+				//Animation player 1
 				if (ghostFramesCounter >= (60 / ghostFramesSpeed))
 				{
 					ghostFramesCounter = 0;
@@ -119,9 +137,21 @@ namespace Game
 
 					if (ghostCurrentFrame > 5) ghostCurrentFrame = 0;
 
-					ghostFrameRec.x = (float)ghostCurrentFrame * (float)ghost.width / 8;
+					ghostFrameRec.x = static_cast<float>(ghostCurrentFrame) * static_cast<float>(ghost.width) / 8;
 				}
 
+				//Animation player 2
+				if (ghostFramesCounter2 >= (60 / ghostFramesSpeed2))
+				{
+					ghostFramesCounter2 = 0;
+					ghostCurrentFrame2++;
+				
+					if (ghostCurrentFrame2 > 5) ghostCurrentFrame2 = 0;
+				
+					ghostFrameRec2.x = static_cast<float>(ghostCurrentFrame2) * static_cast<float>(ghost.width) / 8;
+				}
+
+				//Move obstacles
 				if (obstacleDown.position.x < 0 - obstacleDown.size.x)
 				{
 					obstacle::updateObstacleDown(obstacleDown);
@@ -130,9 +160,13 @@ namespace Game
 				{
 					obstacle::updateObstacleUp(obstacleUp);
 				}
+				
 
 				movePlayer(player);
 
+				movePlayer2(player2);
+
+				//Player 1 collisions
 				if (collisions::rectangleRectangle(player.playerbody.x, player.playerbody.y, player.playerbody.width, player.playerbody.height,
 					obstacleDown.position.x, obstacleDown.position.y, obstacleDown.size.x, obstacleDown.size.y))
 				{
@@ -142,6 +176,7 @@ namespace Game
 					obstacle::updateObstacleUp(obstacleUp);
 					pause = true;
 				}
+
 				if (collisions::rectangleRectangle(player.playerbody.x, player.playerbody.y, player.playerbody.width, player.playerbody.height,
 					obstacleUp.position.x, obstacleUp.position.y, obstacleUp.size.x, obstacleUp.size.y))
 				{
@@ -161,6 +196,7 @@ namespace Game
 					pause = true;
 				}
 				ghostPosition = { player.playerbody.x - (player.playerbody.width / 2), player.playerbody.y - (player.playerbody.height / 2) };
+				ghostPosition2 = { player2.playerbody.x - (player2.playerbody.width / 2), player2.playerbody.y - (player2.playerbody.height / 2) };
 			}
 		}
 	}
@@ -182,6 +218,7 @@ namespace Game
 		DrawTextureEx(background5, Vector2{ scrolling5, 20 }, 0.0f, 0.5f, WHITE);
 		DrawTextureEx(background5, Vector2{ background5.width / 2 + scrolling5, 20 }, 0.0f, 0.5f, WHITE);
 
+
 		DrawRectangle(static_cast<int>(obstacleDown.position.x), static_cast<int>(obstacleDown.position.y), static_cast<int>(obstacleDown.size.x), static_cast<int>(obstacleDown.size.y), RED);
 		DrawRectangle(static_cast<int>(obstacleUp.position.x), static_cast<int>(obstacleUp.position.y), static_cast<int>(obstacleUp.size.x), static_cast<int>(obstacleUp.size.y), RED);
 
@@ -201,6 +238,8 @@ namespace Game
 		}
 
 		DrawTextureRec(ghost, ghostFrameRec, ghostPosition, WHITE);
+		//DrawRectangle(static_cast<int>(player2.playerbody.x), static_cast<int>(player2.playerbody.y), static_cast<int>(player2.playerbody.width), static_cast<int>(player2.playerbody.height), RED);
+		DrawTextureRec(ghost, ghostFrameRec2, ghostPosition2, RED);
 	}
 
 	void unloadGame()

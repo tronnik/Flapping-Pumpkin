@@ -19,4 +19,6 @@ namespace player
 
 	void initPlayer(createPlayer& player);
 	void movePlayer(createPlayer& player);
+
+	void movePlayer2(createPlayer& player2);
 }

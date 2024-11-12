@@ -24,9 +24,26 @@ namespace player
 
 		player.playerbody.y += player.speed * GetFrameTime();
 
-		if (IsKeyDown(KEY_SPACE) || IsKeyDown(KEY_UP))
+		if (IsKeyDown(KEY_SPACE))
 		{
 			player.speed = -200.f;
+		}
+	}
+
+	void movePlayer2(createPlayer& player2)
+	{
+		if (player2.playerbody.y < 0 + (player2.playerbody.height / 2))
+		{
+			player2.playerbody.y = 0 + player2.playerbody.height / 2;
+		}
+
+		player2.speed += player2.gravity * GetFrameTime();
+
+		player2.playerbody.y += player2.speed * GetFrameTime();
+
+		if (IsKeyDown(KEY_UP))
+		{
+			player2.speed = -200.f;
 		}
 	}
 }
