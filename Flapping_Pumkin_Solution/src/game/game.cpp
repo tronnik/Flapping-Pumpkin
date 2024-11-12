@@ -53,7 +53,6 @@ namespace Game
 		player::initPlayer(player1);
 		player::initPlayer(player2);
 
-
 		obstacle::initObstacle(obstacle);
 
 		ghost = LoadTexture("res/game/ghost.png");
@@ -61,13 +60,13 @@ namespace Game
 		ghostPosition = { player1.playerbody.x - (player1.playerbody.width / 2), player1.playerbody.y - (player1.playerbody.height / 2) };
 		ghostCurrentFrame = 0;
 		ghostFramesCounter = 0;
-		ghostFramesSpeed = 6;
+		ghostFramesSpeed = 10;
 
 		ghostFrameRec2 = { 0.0f, 0.0f, static_cast<float>(ghost.width / 8), static_cast<float>(ghost.height) };
 		ghostPosition2 = { player2.playerbody.x - (player2.playerbody.width / 2), player2.playerbody.y - (player2.playerbody.height / 2) };
 		ghostCurrentFrame2 = 0;
 		ghostFramesCounter2 = 0;
-		ghostFramesSpeed2 = 6;
+		ghostFramesSpeed2 = 10;
 
 		background1 = LoadTexture("res/game/enviroment/layers/1.png");
 		background2 = LoadTexture("res/game/enviroment/layers/3.png");
@@ -223,6 +222,8 @@ namespace Game
 		if (pause == true && gameOver == false)
 		{
 			DrawText("Pause On, Press SPACE to play!", 230, 200, 20, WHITE);
+			DrawText("Press spacebar to move player 1 (white ghost)", 230, 250, 20, WHITE);
+			DrawText("Press arrow up to move player 2 (red ghost)", 230, 300, 20, WHITE);
 		}
 
 		DrawTextureRec(ghost, ghostFrameRec, ghostPosition, WHITE);
