@@ -12,9 +12,9 @@ namespace player
 
 		float speed = 0.0f;
 
-		int lives = 0;;
+		int lives = 0;
 
-		bool alive = 0;;
+		bool alive = 0;
 	};
 
 	void initPlayer(createPlayer& player);

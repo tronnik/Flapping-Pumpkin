@@ -27,7 +27,6 @@ namespace gameManager
     {
         init();
 
-        //SetTargetFPS(60);
 
         while (isRunning && !WindowShouldClose())
         {

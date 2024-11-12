@@ -34,7 +34,6 @@ namespace Game
 	bool pause;
 	bool gameOver;
 
-
 	Texture2D background1;
 	Texture2D background2;
 	Texture2D background3;
@@ -48,8 +47,12 @@ namespace Game
 
 	void initGame()
 	{
+		gameOver = false;
+		pause = true;
+
 		player::initPlayer(player1);
 		player::initPlayer(player2);
+
 
 		obstacle::initObstacle(obstacle);
 
@@ -72,8 +75,6 @@ namespace Game
 		background4 = LoadTexture("res/game/enviroment/layers/5.png");
 		background5 = LoadTexture("res/game/enviroment/layers/7.png");
 
-		gameOver = false;
-		pause = true;
 	}
 
 	void updateGame()
@@ -151,11 +152,11 @@ namespace Game
 				
 
 				movePlayer(player1);
+				colision(player1);
 
 				movePlayer2(player2);
-
-				//colision(player1);
 				colision(player2);
+
 
 				ghostPosition = { player1.playerbody.x - (player1.playerbody.width / 2), player1.playerbody.y - (player1.playerbody.height / 2) };
 				ghostPosition2 = { player2.playerbody.x - (player2.playerbody.width / 2), player2.playerbody.y - (player2.playerbody.height / 2) };
@@ -224,8 +225,10 @@ namespace Game
 			DrawText("Pause On, Press SPACE to play!", 230, 200, 20, WHITE);
 		}
 
-		//DrawTextureRec(ghost, ghostFrameRec, ghostPosition, WHITE);
+		DrawTextureRec(ghost, ghostFrameRec, ghostPosition, WHITE);
+
 		DrawTextureRec(ghost, ghostFrameRec2, ghostPosition2, RED);
+
 	}
 
 	void unloadGame()

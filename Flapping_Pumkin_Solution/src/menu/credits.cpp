@@ -51,6 +51,7 @@ namespace Credits
 		DrawText("Created by Valentin!", 50, 450, 20, WHITE);
 		DrawText("ghost by ToffeBunny on Itch.io (link pending)", 50, 480, 20, WHITE);
 		DrawText("Parallax by craftpix on Itch.io (link pending)", 50, 510, 20, WHITE);
+		DrawText("EXIT", static_cast<int>(Globals::Screen.size.x) / 2 - 20, static_cast<int>(Globals::Screen.size.y) / 2 - 85, 20, WHITE);
 	}
 
 	void unloadCredits()
@@ -67,7 +68,7 @@ namespace Credits
 		returnBttn.buttonText[returnBttn.amountOfFrames];
 		returnBttn.buttonFrame = 0;
 		returnBttn.buttonText = new Texture2D[returnBttn.amountOfFrames];
-		returnBttn.buttonText[0] = LoadTexture("res/menu/return_button.png");
+		returnBttn.buttonText[0] = LoadTexture("res/menu/base_button.png");
 		returnBttn.position = { (Globals::Screen.size.x / 2 - (returnBttn.buttonText[0].width / 2)), 200 };
 
 	}
