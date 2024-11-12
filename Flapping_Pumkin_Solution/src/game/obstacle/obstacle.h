@@ -7,16 +7,15 @@ namespace obstacle
 	struct  CreateObstacle
 	{
 		Vector2 position;
-		Vector2 size;
-
-		float speed;
-
-		int stride;
+		Vector2 speed;
+		int width;
+		int topHeight;
+		int bottomHeight;
+		int gap;
 	};
 
-	void initObstacleDown(CreateObstacle& obstacle);
-	void initObstacleUp(CreateObstacle& obstacle);
-	void updateObstacleDown(CreateObstacle& obstacle);
-	void updateObstacleUp(CreateObstacle& obstacle);
+	void initObstacle(CreateObstacle& obstacle);
+	void updateObstacle(CreateObstacle& obstacle);
+	void drawObstacle(CreateObstacle& obstacle);
 }
 

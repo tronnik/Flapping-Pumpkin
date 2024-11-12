@@ -14,10 +14,9 @@ namespace Game
 {
 	const int maxAmountOfObstacles = 1;
 
-	player::createPlayer player;
+	player::createPlayer player1;
 	player::createPlayer player2;
-	obstacle::CreateObstacle obstacleDown;
-	obstacle::CreateObstacle obstacleUp;
+	obstacle::CreateObstacle obstacle;
 
 	Texture2D ghost;
 	Rectangle ghostFrameRec;
@@ -49,15 +48,14 @@ namespace Game
 
 	void initGame()
 	{
-		player::initPlayer(player);
+		player::initPlayer(player1);
 		player::initPlayer(player2);
 
-		obstacle::initObstacleDown(obstacleDown);
-		obstacle::initObstacleUp(obstacleUp);
+		obstacle::initObstacle(obstacle);
 
 		ghost = LoadTexture("res/game/ghost.png");
 		ghostFrameRec = { 0.0f, 0.0f, static_cast<float>(ghost.width / 8), static_cast<float>(ghost.height) };
-		ghostPosition = { player.playerbody.x - (player.playerbody.width / 2), player.playerbody.y - (player.playerbody.height / 2) };
+		ghostPosition = { player1.playerbody.x - (player1.playerbody.width / 2), player1.playerbody.y - (player1.playerbody.height / 2) };
 		ghostCurrentFrame = 0;
 		ghostFramesCounter = 0;
 		ghostFramesSpeed = 6;
@@ -102,7 +100,7 @@ namespace Game
 				}
 			}
 
-			if (player.lives <= 0)
+			if (player1.lives <= 0 || player2.lives <= 0)
 			{
 				gameOver = true;
 			}
@@ -112,9 +110,6 @@ namespace Game
 
 				ghostFramesCounter++;
 				ghostFramesCounter2++;
-
-				obstacleDown.position.x -= obstacleDown.speed * GetFrameTime();
-				obstacleUp.position.x -= obstacleUp.speed * GetFrameTime();
 
 				scrolling1 -= 100.0f * GetFrameTime();
 				scrolling2 -= 150.0f * GetFrameTime();
@@ -152,52 +147,46 @@ namespace Game
 				}
 
 				//Move obstacles
-				if (obstacleDown.position.x < 0 - obstacleDown.size.x)
-				{
-					obstacle::updateObstacleDown(obstacleDown);
-				}
-				if (obstacleUp.position.x < 0 - obstacleUp.size.x)
-				{
-					obstacle::updateObstacleUp(obstacleUp);
-				}
+				updateObstacle(obstacle);
 				
 
-				movePlayer(player);
+				movePlayer(player1);
 
 				movePlayer2(player2);
 
-				//Player 1 collisions
-				if (collisions::rectangleRectangle(player.playerbody.x, player.playerbody.y, player.playerbody.width, player.playerbody.height,
-					obstacleDown.position.x, obstacleDown.position.y, obstacleDown.size.x, obstacleDown.size.y))
-				{
-					player.playerbody.y = (Globals::Screen.size.y / 2) - 20;
-					player.lives -= 1;
-					obstacle::updateObstacleDown(obstacleDown);
-					obstacle::updateObstacleUp(obstacleUp);
-					pause = true;
-				}
+				//colision(player1);
+				colision(player2);
 
-				if (collisions::rectangleRectangle(player.playerbody.x, player.playerbody.y, player.playerbody.width, player.playerbody.height,
-					obstacleUp.position.x, obstacleUp.position.y, obstacleUp.size.x, obstacleUp.size.y))
-				{
-					player.playerbody.y = (Globals::Screen.size.y / 2) - 20;
-					player.lives -= 1;
-					obstacle::updateObstacleDown(obstacleDown);
-					obstacle::updateObstacleUp(obstacleUp);
-					pause = true;
-				}
-
-				if (player.playerbody.y > Globals::Screen.size.y - (player.playerbody.height / 2))
-				{
-					player.playerbody.y = (Globals::Screen.size.y / 2) - 20;
-					player.lives -= 1;
-					obstacle::updateObstacleDown(obstacleDown);
-					obstacle::updateObstacleUp(obstacleUp);
-					pause = true;
-				}
-				ghostPosition = { player.playerbody.x - (player.playerbody.width / 2), player.playerbody.y - (player.playerbody.height / 2) };
+				ghostPosition = { player1.playerbody.x - (player1.playerbody.width / 2), player1.playerbody.y - (player1.playerbody.height / 2) };
 				ghostPosition2 = { player2.playerbody.x - (player2.playerbody.width / 2), player2.playerbody.y - (player2.playerbody.height / 2) };
 			}
+		}
+	}
+
+	void colision(player::createPlayer& player)
+	{
+		bool collisionTop = (player.playerbody.x + player.playerbody.width >= obstacle.position.x &&
+						     player.playerbody.x <= obstacle.position.x + obstacle.width &&
+						     player.playerbody.y + player.playerbody.height >= obstacle.position.y &&
+						     player.playerbody.y <= obstacle.position.y + obstacle.topHeight);
+
+		bool collisionBottom = (player.playerbody.x + player.playerbody.width >= obstacle.position.x &&
+								player.playerbody.x <= obstacle.position.x + obstacle.width &&
+								player.playerbody.y + player.playerbody.height >= obstacle.position.y &&
+								player.playerbody.y <= obstacle.position.y + obstacle.bottomHeight);
+
+		if (collisionTop || collisionBottom)
+		{
+			initObstacle(obstacle);
+			player.lives--;
+			pause = true;
+		}
+
+		if (player.playerbody.y > Globals::Screen.size.y - (player.playerbody.height / 2))
+		{
+			player.playerbody.y = (Globals::Screen.size.y / 2) - 20;
+			player.lives--;
+			pause = true;
 		}
 	}
 
@@ -218,9 +207,7 @@ namespace Game
 		DrawTextureEx(background5, Vector2{ scrolling5, 20 }, 0.0f, 0.5f, WHITE);
 		DrawTextureEx(background5, Vector2{ background5.width / 2 + scrolling5, 20 }, 0.0f, 0.5f, WHITE);
 
-
-		DrawRectangle(static_cast<int>(obstacleDown.position.x), static_cast<int>(obstacleDown.position.y), static_cast<int>(obstacleDown.size.x), static_cast<int>(obstacleDown.size.y), RED);
-		DrawRectangle(static_cast<int>(obstacleUp.position.x), static_cast<int>(obstacleUp.position.y), static_cast<int>(obstacleUp.size.x), static_cast<int>(obstacleUp.size.y), RED);
+		drawObstacle(obstacle);
 
 #ifdef _DEBUG
 		DrawRectangle(static_cast<int>(player.playerbody.x), static_cast<int>(player.playerbody.y), static_cast<int>(player.playerbody.width), static_cast<int>(player.playerbody.height), RED);
@@ -237,8 +224,7 @@ namespace Game
 			DrawText("Pause On, Press SPACE to play!", 230, 200, 20, WHITE);
 		}
 
-		DrawTextureRec(ghost, ghostFrameRec, ghostPosition, WHITE);
-		//DrawRectangle(static_cast<int>(player2.playerbody.x), static_cast<int>(player2.playerbody.y), static_cast<int>(player2.playerbody.width), static_cast<int>(player2.playerbody.height), RED);
+		//DrawTextureRec(ghost, ghostFrameRec, ghostPosition, WHITE);
 		DrawTextureRec(ghost, ghostFrameRec2, ghostPosition2, RED);
 	}
 

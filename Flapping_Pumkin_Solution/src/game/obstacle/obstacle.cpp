@@ -7,64 +7,40 @@
 
 namespace obstacle
 {
-	int minHeight;
-	int maxHeight;
-	int maxWidth;
-	int minWidth;
-	const float initialSpeed = 200; 
-
-	void initObstacleDown(CreateObstacle& obstacle)
+	void initObstacle(CreateObstacle& obstacle)
 	{
-		minHeight = static_cast<int>(Globals::Screen.size.y / 12);
-		maxHeight = static_cast<int>((Globals::Screen.size.y / 12) * 4);
+		Globals::Screen.size.y;
+		Globals::Screen.size.x;
 
-		float sizeX = (Globals::Screen.size.x / 16);
-		float sizeY = static_cast<float>(rand() % maxHeight + minHeight);
+		obstacle.position = { static_cast<float>(Globals::Screen.size.x),
+				   static_cast<float>(0) };
 
-		obstacle.size = {sizeX, sizeY};
-		obstacle.position = { Globals::Screen.size.x + obstacle.size.x, Globals::Screen.size.y - obstacle.size.y };
-		obstacle.speed =  initialSpeed;
-		obstacle.stride = minWidth * 3;
-	}
-	void initObstacleUp(CreateObstacle& obstacle)
-	{
-		minHeight = static_cast<int>(Globals::Screen.size.y / 12);
-		maxHeight = static_cast<int>((Globals::Screen.size.y / 12) * 4);
+		obstacle.speed = { 500.0f, 0.0f };
+		obstacle.width = 30;
 
-		float sizeX = (Globals::Screen.size.x / 16);
-		float sizeY = static_cast<float>(rand() % maxHeight + minHeight);
+		obstacle.gap = 100;
 
-		obstacle.size = { sizeX, sizeY };
-		obstacle.position = { Globals::Screen.size.x + obstacle.size.x, 0 };
-		obstacle.speed = initialSpeed;
-		obstacle.stride = minWidth * 3;
+		obstacle.topHeight = GetRandomValue(50, static_cast<int>(Globals::Screen.size.y) - obstacle.gap - 50);
+		obstacle.bottomHeight = static_cast<int>(Globals::Screen.size.y) - obstacle.topHeight - obstacle.gap;
 	}
 
-	void updateObstacleDown(CreateObstacle& obstacle)
+	void updateObstacle(CreateObstacle& obstacle)
 	{
-		minHeight = static_cast<int>(Globals::Screen.size.y / 12);
-		maxHeight = static_cast<int>((Globals::Screen.size.y / 12) * 4);
+		if (obstacle.position.x < static_cast<float>(0))
+		{
+			obstacle.position.x = (Globals::Screen.size.x);
+			obstacle.topHeight = GetRandomValue(50, static_cast<int>(Globals::Screen.size.y) - obstacle.gap - 50);
+			obstacle.bottomHeight = static_cast<int>(Globals::Screen.size.y) - obstacle.topHeight - obstacle.gap;
+		}
 
-		float sizeY = static_cast<float>(rand() % maxHeight + minHeight);
-		obstacle.size.y =  sizeY ;
-
-		obstacle.position = { Globals::Screen.size.x + obstacle.size.x, Globals::Screen.size.y - obstacle.size.y };
-
-		obstacle.speed +=  5;
-		obstacle.position.x = Globals::Screen.size.x + obstacle.size.x;
+		obstacle.position.x -= obstacle.speed.x * GetFrameTime();
 	}
 
-	void updateObstacleUp(CreateObstacle& obstacle)
+	void drawObstacle(CreateObstacle& obstacle)
 	{
-		minHeight = static_cast<int>(Globals::Screen.size.y / 12);
-		maxHeight = static_cast<int>((Globals::Screen.size.y / 12) * 4);
+		DrawRectangle(static_cast<int>(obstacle.position.x), 0, obstacle.width, obstacle.topHeight, RED);
 
-		float sizeY = static_cast<float>(rand() % maxHeight + minHeight);
-		obstacle.size.y = sizeY;
+		DrawRectangle(static_cast<int>(obstacle.position.x), static_cast<int>(obstacle.topHeight + obstacle.gap), obstacle.width, obstacle.bottomHeight, RED);
 
-		obstacle.position = { Globals::Screen.size.x + obstacle.size.x, 0 };
-
-		obstacle.speed += 5;
-		obstacle.position.x = Globals::Screen.size.x + obstacle.size.x;
 	}
 }
