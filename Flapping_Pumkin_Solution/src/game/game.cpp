@@ -47,6 +47,9 @@ namespace Game
 	float scrolling4 = 0.0f;
 	float scrolling5 = 0.0f;
 
+	Music gameplayMusic;
+
+
 	void initGame(bool& twoPlayerOn)
 	{
 		gameOver = false;
@@ -84,6 +87,12 @@ namespace Game
 		background3 = LoadTexture("res/game/enviroment/layers/4.png");
 		background4 = LoadTexture("res/game/enviroment/layers/5.png");
 		background5 = LoadTexture("res/game/enviroment/layers/7.png");
+
+		gameplayMusic = LoadMusicStream("res/music/gameplayMusic.mp3");
+
+		SetMusicVolume(gameplayMusic, 0.5f);
+
+		PlayMusicStream(gameplayMusic);
 
 	}
 
@@ -219,6 +228,8 @@ namespace Game
 
 	void drawGame(bool& twoPlayerOn)
 	{
+		UpdateMusicStream(gameplayMusic);
+
 		DrawTextureEx(background1, Vector2{ scrolling1, 20 }, 0.0f, 0.5f, WHITE);
 		DrawTextureEx(background1, Vector2{ background1.width / 2 + scrolling1, 20 }, 0.0f, 0.5f, WHITE);
 
@@ -235,8 +246,6 @@ namespace Game
 		DrawTextureEx(background5, Vector2{ background5.width / 2 + scrolling5, 20 }, 0.0f, 0.5f, WHITE);
 
 		drawObstacle(obstacle);
-
-
 
 		if (gameOver == true)
 		{
@@ -269,5 +278,6 @@ namespace Game
 		UnloadTexture(background3);
 		UnloadTexture(background4);
 		UnloadTexture(background5);
+		UnloadMusicStream(gameplayMusic);
 	}
 }

@@ -22,6 +22,7 @@ namespace Menu
 	button::createButton exitBttn;
 	Vector2 pointerPosition = { 0.0f, 0.0f };
 	Rectangle pointer;
+	Music menuMusic;
 
 	bool creditsInitOk;
 
@@ -31,6 +32,12 @@ namespace Menu
 
 		pointer = { pointerPosition.x, pointerPosition.y, 20, 20 };
 		creditsInitOk = false;
+
+		menuMusic = LoadMusicStream("res/music/menuMusic.mp3");
+
+		SetMusicVolume(menuMusic, 0.5f);
+
+		PlayMusicStream(menuMusic);
 	}
 
 	void updateMenu(bool& twoPlayerOn)
@@ -84,6 +91,7 @@ namespace Menu
 
 	void drawMenu()
 	{
+		UpdateMusicStream(menuMusic);
 
 		DrawTexture(playBttn.buttonText[playBttn.buttonFrame], static_cast<int>(playBttn.position.x), static_cast<int>(playBttn.position.y), WHITE);
 		DrawText(TextFormat("1 PLAYER"), static_cast<int>(Globals::Screen.size.x / 2  + 110 - (playBttn.buttonText[0].width / 2)), 210, 30, WHITE);
@@ -149,5 +157,7 @@ namespace Menu
 		delete play2Bttn.buttonText;
 		delete creditsBttn.buttonText;
 		delete exitBttn.buttonText;
+
+		UnloadMusicStream(menuMusic);
 	}
 }
