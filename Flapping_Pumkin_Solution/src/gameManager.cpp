@@ -22,6 +22,7 @@ namespace gameManager
 
     CurrentScreen currentscreen;
     bool isRunning = true;
+    bool twoPlayerOn = false;
 
     int run(void)
     {
@@ -57,10 +58,10 @@ namespace gameManager
         switch (currentscreen)
         {
         case menu:
-            Menu::updateMenu();
+            Menu::updateMenu(twoPlayerOn);
             break;
         case game:
-            Game::updateGame();
+            Game::updateGame(twoPlayerOn);
             break;
         case credits:
             Credits::updateCredits();
@@ -81,7 +82,7 @@ namespace gameManager
         }
         if (currentscreen == game)
         {
-            Game::drawGame();
+            Game::drawGame(twoPlayerOn);
         }
         if (currentscreen == credits)
         {

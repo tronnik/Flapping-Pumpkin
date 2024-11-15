@@ -18,7 +18,7 @@ namespace obstacle
 		obstacle.speed = { 500.0f, 0.0f };
 		obstacle.width = 30;
 
-		obstacle.gap = 150;
+		obstacle.gap = 300;
 
 		obstacle.topHeight = GetRandomValue(50, static_cast<int>(Globals::Screen.size.y) - obstacle.gap - 50);
 		obstacle.bottomHeight = static_cast<int>(Globals::Screen.size.y) - obstacle.topHeight - obstacle.gap;

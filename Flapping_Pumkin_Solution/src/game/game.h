@@ -6,13 +6,13 @@
 
 namespace Game
 {
-	void initGame();
+	void initGame(bool& twoPlayerOn);
 
-	void updateGame();
+	void updateGame(bool& twoPlayerOn);
 
 	void colision(player::createPlayer& player );
 
-	void drawGame();
+	void drawGame(bool& twoPlayerOn);
 
 	void unloadGame();
 }

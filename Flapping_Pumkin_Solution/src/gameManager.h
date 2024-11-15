@@ -22,5 +22,5 @@ namespace gameManager
 
 	extern Screen screen;
 	extern CurrentScreen currentscreen;
-
+	extern bool twoPlayerOn;
 }

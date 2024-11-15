@@ -14,7 +14,7 @@
 namespace Menu
 {
 
-	const float ver = 0.3f;
+	const float ver = 0.4f;
 
 	button::createButton playBttn;
 	button::createButton play2Bttn;
@@ -33,7 +33,7 @@ namespace Menu
 		creditsInitOk = false;
 	}
 
-	void updateMenu()
+	void updateMenu(bool& twoPlayerOn)
 	{
 		pointerPosition = GetMousePosition();
 		pointer.x = pointerPosition.x;
@@ -44,7 +44,7 @@ namespace Menu
 		{
 			if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 			{
-				Game::initGame();
+				Game::initGame(twoPlayerOn);
 				gameManager::currentscreen = gameManager::game;
 			}
 		}
@@ -53,7 +53,8 @@ namespace Menu
 		{
 			if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 			{
-				Game::initGame();
+				twoPlayerOn = true;
+				Game::initGame(twoPlayerOn);
 				gameManager::currentscreen = gameManager::game;
 			}
 		}
@@ -102,18 +103,6 @@ namespace Menu
 #endif
 	}
 
-	void unloadMenu()
-	{
-		for (int i = 0; i < playBttn.amountOfFrames; i++)
-		{
-			UnloadTexture(playBttn.buttonText[i]);
-		}
-		for (int i = 0; i < creditsBttn.amountOfFrames; i++)
-		{
-			UnloadTexture(creditsBttn.buttonText[i]);
-		}
-	}
-
 	void initButtons()
 	{
 		playBttn.amountOfFrames = 1;
@@ -143,5 +132,22 @@ namespace Menu
 		exitBttn.buttonText = new Texture2D[exitBttn.amountOfFrames];
 		exitBttn.buttonText[0] = LoadTexture("res/menu/base_button.png");
 		exitBttn.position = { (Globals::Screen.size.x / 2 - (creditsBttn.buttonText[0].width / 2)), 500 };
+	}
+
+	void unloadMenu()
+	{
+		for (int i = 0; i < playBttn.amountOfFrames; i++)
+		{
+			UnloadTexture(playBttn.buttonText[i]);
+		}
+		for (int i = 0; i < creditsBttn.amountOfFrames; i++)
+		{
+			UnloadTexture(creditsBttn.buttonText[i]);
+		}
+
+		delete playBttn.buttonText;
+		delete play2Bttn.buttonText;
+		delete creditsBttn.buttonText;
+		delete exitBttn.buttonText;
 	}
 }

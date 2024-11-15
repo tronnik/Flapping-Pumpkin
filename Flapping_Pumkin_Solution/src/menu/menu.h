@@ -6,7 +6,7 @@ namespace Menu
 
 	void initMenu();
 	
-	void updateMenu();
+	void updateMenu(bool& twoPlayerOn);
 
 	void drawMenu();
 

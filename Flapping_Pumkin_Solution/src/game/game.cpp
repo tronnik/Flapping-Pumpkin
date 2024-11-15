@@ -2,6 +2,8 @@
 
 #include "raylib.h"
 
+#include <iostream>
+
 #include "gameManager.h"
 
 #include "globals/collisionsManager.h"
@@ -45,13 +47,18 @@ namespace Game
 	float scrolling4 = 0.0f;
 	float scrolling5 = 0.0f;
 
-	void initGame()
+	void initGame(bool& twoPlayerOn)
 	{
 		gameOver = false;
 		pause = true;
 
 		player::initPlayer(player1);
-		player::initPlayer(player2);
+
+		if (twoPlayerOn)
+		{
+
+			player::initPlayer(player2);
+		}
 
 		obstacle::initObstacle(obstacle);
 
@@ -62,11 +69,15 @@ namespace Game
 		ghostFramesCounter = 0;
 		ghostFramesSpeed = 10;
 
-		ghostFrameRec2 = { 0.0f, 0.0f, static_cast<float>(ghost.width / 8), static_cast<float>(ghost.height) };
-		ghostPosition2 = { player2.playerbody.x - (player2.playerbody.width / 2), player2.playerbody.y - (player2.playerbody.height / 2) };
-		ghostCurrentFrame2 = 0;
-		ghostFramesCounter2 = 0;
-		ghostFramesSpeed2 = 10;
+		if (twoPlayerOn)
+		{
+			ghostFrameRec2 = { 0.0f, 0.0f, static_cast<float>(ghost.width / 8), static_cast<float>(ghost.height) };
+			ghostPosition2 = { player2.playerbody.x - (player2.playerbody.width / 2), player2.playerbody.y - (player2.playerbody.height / 2) };
+			ghostCurrentFrame2 = 0;
+			ghostFramesCounter2 = 0;
+			ghostFramesSpeed2 = 10;
+
+		}
 
 		background1 = LoadTexture("res/game/enviroment/layers/1.png");
 		background2 = LoadTexture("res/game/enviroment/layers/3.png");
@@ -76,17 +87,30 @@ namespace Game
 
 	}
 
-	void updateGame()
+	void updateGame(bool& twoPlayerOn)
 	{
 		if (gameOver == true)
 		{
 			if (IsKeyPressed(KEY_ENTER))
 			{
-				initGame();
+				initGame(twoPlayerOn);
 			}
 			if (IsKeyPressed(KEY_SPACE))
 			{
 				gameManager::currentscreen = gameManager::menu;
+			}
+		}
+
+		if (player1.lives <= 0)
+		{
+			gameOver = true;
+		}
+
+		if (twoPlayerOn)
+		{
+			if (player2.lives <= 0)
+			{
+				gameOver = true;
 			}
 		}
 
@@ -100,10 +124,6 @@ namespace Game
 				}
 			}
 
-			if (player1.lives <= 0 || player2.lives <= 0)
-			{
-				gameOver = true;
-			}
 
 			if (pause == false)
 			{
@@ -136,44 +156,49 @@ namespace Game
 				}
 
 				//Animation player 2
-				if (ghostFramesCounter2 >= (60 / ghostFramesSpeed2))
+				if (twoPlayerOn)
 				{
-					ghostFramesCounter2 = 0;
-					ghostCurrentFrame2++;
-				
-					if (ghostCurrentFrame2 > 5) ghostCurrentFrame2 = 0;
-				
-					ghostFrameRec2.x = static_cast<float>(ghostCurrentFrame2) * static_cast<float>(ghost.width) / 8;
+
+					if (ghostFramesCounter2 >= (60 / ghostFramesSpeed2))
+					{
+						ghostFramesCounter2 = 0;
+						ghostCurrentFrame2++;
+
+						if (ghostCurrentFrame2 > 5) ghostCurrentFrame2 = 0;
+
+						ghostFrameRec2.x = static_cast<float>(ghostCurrentFrame2) * static_cast<float>(ghost.width) / 8;
+					}
 				}
 
 				//Move obstacles
 				updateObstacle(obstacle);
-				
 
 				movePlayer(player1);
 				colision(player1);
-
-				movePlayer2(player2);
-				colision(player2);
-
-
 				ghostPosition = { player1.playerbody.x - (player1.playerbody.width / 2), player1.playerbody.y - (player1.playerbody.height / 2) };
-				ghostPosition2 = { player2.playerbody.x - (player2.playerbody.width / 2), player2.playerbody.y - (player2.playerbody.height / 2) };
+
+				if (twoPlayerOn)
+				{
+					movePlayer2(player2);
+					colision(player2);
+					ghostPosition2 = { player2.playerbody.x - (player2.playerbody.width / 2), player2.playerbody.y - (player2.playerbody.height / 2) };
+
+				}
 			}
 		}
 	}
 
 	void colision(player::createPlayer& player)
 	{
-		bool collisionTop = (player.playerbody.x + player.playerbody.width >= obstacle.position.x &&
-						     player.playerbody.x <= obstacle.position.x + obstacle.width &&
-						     player.playerbody.y + player.playerbody.height >= obstacle.position.y &&
-						     player.playerbody.y <= obstacle.position.y + obstacle.topHeight);
+		bool collisionTop = collisions::rectangleRectangle(static_cast<float>(player.playerbody.x), static_cast<float>(player.playerbody.y),
+			static_cast<float>(player.playerbody.width), static_cast<float>(player.playerbody.height),
+			static_cast<float>(obstacle.position.x), static_cast<float>(obstacle.position.y), static_cast<float>(obstacle.width),
+			static_cast<float>(obstacle.topHeight));
 
-		bool collisionBottom = (player.playerbody.x + player.playerbody.width >= obstacle.position.x &&
-								player.playerbody.x <= obstacle.position.x + obstacle.width &&
-								player.playerbody.y + player.playerbody.height >= obstacle.position.y &&
-								player.playerbody.y <= obstacle.position.y + obstacle.bottomHeight);
+		bool collisionBottom = collisions::rectangleRectangle(static_cast<float>(player.playerbody.x), static_cast<float>(player.playerbody.y),
+			static_cast<float>(player.playerbody.width), static_cast<float>(player.playerbody.height),
+			static_cast<float>(obstacle.position.x), static_cast<float>(obstacle.position.y), static_cast<float>(obstacle.width),
+			static_cast<float>(obstacle.bottomHeight));
 
 		if (collisionTop || collisionBottom)
 		{
@@ -188,9 +213,11 @@ namespace Game
 			player.lives--;
 			pause = true;
 		}
+
+
 	}
 
-	void drawGame()
+	void drawGame(bool& twoPlayerOn)
 	{
 		DrawTextureEx(background1, Vector2{ scrolling1, 20 }, 0.0f, 0.5f, WHITE);
 		DrawTextureEx(background1, Vector2{ background1.width / 2 + scrolling1, 20 }, 0.0f, 0.5f, WHITE);
@@ -209,12 +236,10 @@ namespace Game
 
 		drawObstacle(obstacle);
 
-#ifdef _DEBUG
-		DrawRectangle(static_cast<int>(player.playerbody.x), static_cast<int>(player.playerbody.y), static_cast<int>(player.playerbody.width), static_cast<int>(player.playerbody.height), RED);
-#endif
+
 
 		if (gameOver == true)
-	    {
+		{
 			DrawText("GameOver, Press enter to replay!", 230, 200, 20, WHITE);
 			DrawText("If not, Press space for menu!", 230, 230, 20, WHITE);
 			DrawText("or Press esc to exit!", 230, 260, 20, WHITE);
@@ -228,7 +253,11 @@ namespace Game
 
 		DrawTextureRec(ghost, ghostFrameRec, ghostPosition, WHITE);
 
-		DrawTextureRec(ghost, ghostFrameRec2, ghostPosition2, RED);
+		if (twoPlayerOn)
+		{
+			DrawTextureRec(ghost, ghostFrameRec2, ghostPosition2, RED);
+
+		}
 
 	}
 
