@@ -12,10 +12,10 @@ namespace obstacle
 		int topHeight;
 		int bottomHeight;
 		int gap;
+		bool passed;
 	};
 
 	void initObstacle(CreateObstacle& obstacle);
 	void updateObstacle(CreateObstacle& obstacle);
-	void drawObstacle(CreateObstacle& obstacle);
 }
 

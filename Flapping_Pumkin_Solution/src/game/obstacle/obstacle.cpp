@@ -22,6 +22,8 @@ namespace obstacle
 
 		obstacle.topHeight = GetRandomValue(50, static_cast<int>(Globals::Screen.size.y) - obstacle.gap - 50);
 		obstacle.bottomHeight = static_cast<int>(Globals::Screen.size.y) - obstacle.topHeight - obstacle.gap;
+
+		obstacle.passed = false;
 	}
 
 	void updateObstacle(CreateObstacle& obstacle)
@@ -31,16 +33,10 @@ namespace obstacle
 			obstacle.position.x = (Globals::Screen.size.x);
 			obstacle.topHeight = GetRandomValue(50, static_cast<int>(Globals::Screen.size.y) - obstacle.gap - 50);
 			obstacle.bottomHeight = static_cast<int>(Globals::Screen.size.y) - obstacle.topHeight - obstacle.gap;
+			obstacle.passed = false;
 		}
 
 		obstacle.position.x -= obstacle.speed.x * GetFrameTime();
 	}
 
-	void drawObstacle(CreateObstacle& obstacle)
-	{
-		DrawRectangle(static_cast<int>(obstacle.position.x), 0, obstacle.width, obstacle.topHeight, RED);
-
-		DrawRectangle(static_cast<int>(obstacle.position.x), static_cast<int>(obstacle.topHeight + obstacle.gap), obstacle.width, obstacle.bottomHeight, RED);
-
-	}
 }

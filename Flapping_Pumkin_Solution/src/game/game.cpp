@@ -12,6 +12,8 @@
 #include "player/player.h"
 #include "obstacle/obstacle.h"
 
+#include "menu/menu.h"
+
 namespace Game
 {
 	const int maxAmountOfObstacles = 1;
@@ -47,8 +49,13 @@ namespace Game
 	float scrolling4 = 0.0f;
 	float scrolling5 = 0.0f;
 
-	Music gameplayMusic;
+	Texture2D obctacleTop;
+	Texture2D obctacleBottom;
 
+	Music gameplayMusic;
+	Sound crushSfx;
+	Sound gameOverSfx;
+	Sound pointsSfx;
 
 	void initGame(bool& twoPlayerOn)
 	{
@@ -88,16 +95,25 @@ namespace Game
 		background4 = LoadTexture("res/game/enviroment/layers/5.png");
 		background5 = LoadTexture("res/game/enviroment/layers/7.png");
 
+		obctacleBottom = LoadTexture("res/game/obstacle/hand_1.png");
+		obctacleTop = LoadTexture("res/game/obstacle/hand_2.png");
+
+		player::loadSfxPlayer();
+
+
 		gameplayMusic = LoadMusicStream("res/music/gameplayMusic.mp3");
 
-		SetMusicVolume(gameplayMusic, 0.5f);
-
-		PlayMusicStream(gameplayMusic);
+		crushSfx = LoadSound("res/sfx/crush.mp3");
+		gameOverSfx = LoadSound("res/sfx/gameOver.mp3");
+		pointsSfx = LoadSound("res/sfx/points.mp3");
 
 	}
 
 	void updateGame(bool& twoPlayerOn)
 	{
+		SetMusicVolume(gameplayMusic, 0.3f);
+		PlayMusicStream(gameplayMusic);
+
 		if (gameOver == true)
 		{
 			if (IsKeyPressed(KEY_ENTER))
@@ -112,6 +128,8 @@ namespace Game
 
 		if (player1.lives <= 0)
 		{
+			SetSoundVolume(gameOverSfx, 0.1f);
+			PlaySound(gameOverSfx);
 			gameOver = true;
 		}
 
@@ -119,6 +137,8 @@ namespace Game
 		{
 			if (player2.lives <= 0)
 			{
+				SetSoundVolume(gameOverSfx, 0.1f);
+				PlaySound(gameOverSfx);
 				gameOver = true;
 			}
 		}
@@ -136,7 +156,6 @@ namespace Game
 
 			if (pause == false)
 			{
-
 				ghostFramesCounter++;
 				ghostFramesCounter2++;
 
@@ -154,7 +173,7 @@ namespace Game
 
 
 				//Animation player 1
-				if (ghostFramesCounter >= (60 / ghostFramesSpeed))
+				if (ghostFramesCounter >= (60 / ghostFramesSpeed ))
 				{
 					ghostFramesCounter = 0;
 					ghostCurrentFrame++;
@@ -193,47 +212,40 @@ namespace Game
 					ghostPosition2 = { player2.playerbody.x - (player2.playerbody.width / 2), player2.playerbody.y - (player2.playerbody.height / 2) };
 
 				}
+
+				if (player1.playerbody.x + player1.playerbody.width > obstacle.position.x && !obstacle.passed) 
+				{
+					player1.points += 10;
+					obstacle.passed = true;  
+					SetSoundVolume(pointsSfx, 0.2f);
+					PlaySound(pointsSfx);
+				}
 			}
 		}
 	}
 
 	void colision(player::createPlayer& player)
 	{
-		//bool collisionTop = collisions::rectangleRectangle(static_cast<float>(player.playerbody.x), static_cast<float>(player.playerbody.y),
-		//	static_cast<float>(player.playerbody.width), static_cast<float>(player.playerbody.height),
-		//	static_cast<float>(obstacle.position.x), static_cast<float>(obstacle.position.y), static_cast<float>(obstacle.width),
-		//	static_cast<float>(obstacle.topHeight));
-		//
-		//bool collisionBottom = collisions::rectangleRectangle(static_cast<float>(player.playerbody.x), static_cast<float>(player.playerbody.y),
-		//	static_cast<float>(player.playerbody.width), static_cast<float>(player.playerbody.height),
-		//	static_cast<float>(obstacle.position.x), static_cast<float>(obstacle.position.y), static_cast<float>(obstacle.width),
-		//	static_cast<float>(obstacle.bottomHeight));
-		//
-		//if (collisionTop || collisionBottom)
-		//{
-		//	initObstacle(obstacle);
-		//	player.lives--;
-		//	pause = true;
-		//}
-		
-		bool collisionTop = collisions::rectangleRectangle(
+		bool collisionTop = collisions::rectangleRectangle
+		(
 			static_cast<float>(player.playerbody.x), static_cast<float>(player.playerbody.y),
 			static_cast<float>(player.playerbody.width), static_cast<float>(player.playerbody.height),
-			static_cast<float>(obstacle.position.x), 0.0f, // Top obstacle siempre empieza desde y = 0
+			static_cast<float>(obstacle.position.x), 0.0f, 
 			static_cast<float>(obstacle.width), static_cast<float>(obstacle.topHeight)
 		);
 
-		// Colisión con el obstáculo inferior
-		bool collisionBottom = collisions::rectangleRectangle(
+		bool collisionBottom = collisions::rectangleRectangle
+		(
 			static_cast<float>(player.playerbody.x), static_cast<float>(player.playerbody.y),
 			static_cast<float>(player.playerbody.width), static_cast<float>(player.playerbody.height),
-			static_cast<float>(obstacle.position.x), static_cast<float>(obstacle.topHeight + obstacle.gap), // Inicio del obstáculo inferior
+			static_cast<float>(obstacle.position.x), static_cast<float>(obstacle.topHeight + obstacle.gap), 
 			static_cast<float>(obstacle.width), static_cast<float>(obstacle.bottomHeight)
 		);
 
-		// Si hay colisión con cualquiera de los dos, reinicia el obstáculo
 		if (collisionTop || collisionBottom)
 		{
+			SetSoundVolume(crushSfx, 0.3f);
+			PlaySound(crushSfx);
 			initObstacle(obstacle);
 			player.lives--;
 			pause = true;
@@ -268,13 +280,19 @@ namespace Game
 		DrawTextureEx(background5, Vector2{ scrolling5, 20 }, 0.0f, 0.5f, WHITE);
 		DrawTextureEx(background5, Vector2{ background5.width / 2 + scrolling5, 20 }, 0.0f, 0.5f, WHITE);
 
-		drawObstacle(obstacle);
+		
+		DrawRectangle(static_cast<int>(obstacle.position.x), 0, obstacle.width, obstacle.topHeight, RED);
+		DrawRectangle(static_cast<int>(obstacle.position.x), static_cast<int>(obstacle.topHeight + obstacle.gap), obstacle.width, obstacle.bottomHeight, RED);
+		
+		//DrawTextureEx(obctacleTop, Vector2{ obstacle.position.x, 0.0f }, 0.0f, 1.0f, WHITE);
+		//DrawTextureEx(obctacleBottom, Vector2{ obstacle.position.x, static_cast<float>(obstacle.topHeight) + obstacle.gap }, 0.0f, 1.0f, WHITE);
 
 		if (gameOver == true)
 		{
 			DrawText("GameOver, Press enter to replay!", 230, 200, 20, WHITE);
-			DrawText("If not, Press space for menu!", 230, 230, 20, WHITE);
-			DrawText("or Press esc to exit!", 230, 260, 20, WHITE);
+			DrawText(TextFormat(" max points %01i", player1.maxPoints), 220, 230, 20, WHITE);
+			DrawText("If not, Press space for menu!", 230, 260, 20, WHITE);
+			DrawText("or Press esc to exit!", 230, 290, 20, WHITE);
 		}
 		if (pause == true && gameOver == false)
 		{
@@ -288,8 +306,10 @@ namespace Game
 		if (twoPlayerOn)
 		{
 			DrawTextureRec(ghost, ghostFrameRec2, ghostPosition2, RED);
-
 		}
+
+		DrawText(TextFormat(" points %01i", player1.points), 10, 10, 30, RED);
+
 
 	}
 
@@ -302,5 +322,8 @@ namespace Game
 		UnloadTexture(background4);
 		UnloadTexture(background5);
 		UnloadMusicStream(gameplayMusic);
+		UnloadSound(crushSfx);
+		UnloadSound(gameOverSfx);
+		UnloadSound(pointsSfx);
 	}
 }

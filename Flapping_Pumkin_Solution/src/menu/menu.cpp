@@ -23,6 +23,7 @@ namespace Menu
 	Vector2 pointerPosition = { 0.0f, 0.0f };
 	Rectangle pointer;
 	Music menuMusic;
+	Sound clickSfx;
 
 	bool creditsInitOk;
 
@@ -32,16 +33,19 @@ namespace Menu
 
 		pointer = { pointerPosition.x, pointerPosition.y, 20, 20 };
 		creditsInitOk = false;
+	}
 
+	void loadMenu()
+	{
 		menuMusic = LoadMusicStream("res/music/menuMusic.mp3");
-
-		SetMusicVolume(menuMusic, 0.5f);
-
-		PlayMusicStream(menuMusic);
+		clickSfx = LoadSound("res/sfx/click.mp3");
 	}
 
 	void updateMenu(bool& twoPlayerOn)
 	{
+		SetMusicVolume(menuMusic, 0.5f);
+		
+		PlayMusicStream(menuMusic);
 		pointerPosition = GetMousePosition();
 		pointer.x = pointerPosition.x;
 		pointer.y = pointerPosition.y;
@@ -49,6 +53,8 @@ namespace Menu
 
 		if (collisions::rectangleRectangle(playBttn.position.x, playBttn.position.y, static_cast<float>(playBttn.buttonText[0].width), static_cast<float>(playBttn.buttonText[0].height), pointerPosition.x, pointerPosition.y, pointer.width, pointer.height))
 		{
+				SetSoundVolume(clickSfx, 1.0f);
+				PlaySound(clickSfx);
 			if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 			{
 				Game::initGame(twoPlayerOn);
@@ -60,6 +66,8 @@ namespace Menu
 		{
 			if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 			{
+				SetSoundVolume(clickSfx, 0.3f);
+				PlaySound(clickSfx);
 				twoPlayerOn = true;
 				Game::initGame(twoPlayerOn);
 				gameManager::currentscreen = gameManager::game;
@@ -69,7 +77,9 @@ namespace Menu
 		if (collisions::rectangleRectangle(creditsBttn.position.x, creditsBttn.position.y, static_cast<float>(creditsBttn.buttonText[0].width), static_cast<float>(creditsBttn.buttonText[0].height), pointerPosition.x, pointerPosition.y, pointer.width, pointer.height))
 		{
 			if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
-			{			
+			{		
+				SetSoundVolume(clickSfx, 0.3f);
+				PlaySound(clickSfx);
 				if (creditsInitOk == false)
 				{
 					Credits::initCredits();
@@ -83,6 +93,8 @@ namespace Menu
 		{
 			if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 			{
+				SetSoundVolume(clickSfx, 0.3f);
+				PlaySound(clickSfx);
 				gameManager::stop();
 			}
 		}
@@ -159,5 +171,6 @@ namespace Menu
 		delete exitBttn.buttonText;
 
 		UnloadMusicStream(menuMusic);
+		UnloadSound(clickSfx);
 	}
 }

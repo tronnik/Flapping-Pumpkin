@@ -8,16 +8,19 @@ namespace player
 	{
 		Rectangle playerbody;
 
-		float gravity = 0.0f;
+		float gravity;
 
-		float speed = 0.0f;
+		float speed;
 
-		int lives = 0;
+		int lives;
 
-		bool alive = 0;
+		int points;
+
+		int maxPoints;
 	};
 
 	void initPlayer(createPlayer& player);
+	void loadSfxPlayer();
 	void movePlayer(createPlayer& player);
 	void movePlayer2(createPlayer& player2);
 }

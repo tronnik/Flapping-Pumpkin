@@ -51,6 +51,8 @@ namespace gameManager
 
         Menu::initMenu();
         gameManager::currentscreen = menu;
+
+        Menu::loadMenu();
     }
 
     static void update()

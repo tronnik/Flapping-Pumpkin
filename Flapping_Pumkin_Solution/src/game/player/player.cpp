@@ -4,13 +4,21 @@
 
 namespace player
 {
+	Sound jumpSfx;
+	
 	void initPlayer(createPlayer& player)
 	{
-		player.alive = true;
 		player.lives = 3;
 		player.gravity = 500.0f;
 		player.speed = 0.0f;
 		player.playerbody = { 60, (Globals::Screen.size.y / 2) - 20, 40, 40}; 
+		player.points = 0;
+		player.maxPoints = 0;
+	}
+
+	void loadSfxPlayer()
+	{
+		jumpSfx = LoadSound("res/sfx/jump.mp3");
 	}
 
 	void movePlayer(createPlayer& player)
@@ -27,6 +35,8 @@ namespace player
 		if (IsKeyDown(KEY_SPACE))
 		{
 			player.speed = -200.f;
+			SetSoundVolume(jumpSfx, 0.3f);
+			PlaySound(jumpSfx);
 		}
 	}
 
@@ -44,6 +54,8 @@ namespace player
 		if (IsKeyDown(KEY_UP))
 		{
 			player2.speed = -200.f;
+			SetSoundVolume(jumpSfx, 0.3f);
+			PlaySound(jumpSfx);
 		}
 	}
 }
