@@ -50,13 +50,15 @@ namespace Menu
 		pointer.x = pointerPosition.x;
 		pointer.y = pointerPosition.y;
 
+		//DrawText("Flapping Pumkin", 50, 50, 50, WHITE);
 
+		DrawText(TextFormat("Flapping Pumkin"), static_cast<int>(Globals::Screen.size.x / 2 - 200 ), 80, 50, WHITE);
 		if (collisions::rectangleRectangle(playBttn.position.x, playBttn.position.y, static_cast<float>(playBttn.buttonText[0].width), static_cast<float>(playBttn.buttonText[0].height), pointerPosition.x, pointerPosition.y, pointer.width, pointer.height))
 		{
-				SetSoundVolume(clickSfx, 1.0f);
-				PlaySound(clickSfx);
 			if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 			{
+				SetSoundVolume(clickSfx, 1.0f);
+				PlaySound(clickSfx);
 				Game::initGame(twoPlayerOn);
 				gameManager::currentscreen = gameManager::game;
 			}

@@ -47,11 +47,30 @@ namespace Credits
 		DrawRectangle(static_cast<int>(pointer.x), static_cast<int>(pointer.y), static_cast<int>(pointer.width), static_cast<int>(pointer.height), RED);
 #endif
 
-		DrawText("Created by Estanislao!", 50, 420, 20, WHITE);
-		DrawText("Created by Valentin!", 50, 450, 20, WHITE);
-		DrawText("ghost by ToffeBunny on Itch.io (link pending)", 50, 480, 20, WHITE);
-		DrawText("Parallax by craftpix on Itch.io (link pending)", 50, 510, 20, WHITE);
-		DrawText("EXIT", static_cast<int>(Globals::Screen.size.x) / 2 - 20, static_cast<int>(Globals::Screen.size.y) / 2 - 85, 20, WHITE);
+		DrawText("Created by Estanislao!", 20, 30, 20, WHITE);
+		DrawText("Created by Valentin!", 20, 70, 20, WHITE);
+		DrawText("ghost by ToffeBunny on Itch.io halloween cats", 20, 110, 20, WHITE);
+		DrawText("Parallax by craftpix on Itch.io Parallax Halloween 2D Game Backgrounds", 20, 150, 20, WHITE);
+		DrawText("Menu Music by Valentin in Suno.ai Haunted Pixels", 20, 190, 20, WHITE);
+		DrawText("Menu Music by Valentin in Suno.ai Ghost in the Pixels", 20, 240, 20, WHITE);
+
+		DrawText("jump sfx:", 20, 280, 20, WHITE);
+		DrawText("https://www.zapsplat.com/music/cartoon-bounce-drum-tympani-boing/", 120, 280, 19, WHITE);
+
+		DrawText("crush sfx:", 20, 320, 20, WHITE);
+		DrawText("https://pixabay.com/es/sound-effects/tin-recycled-161018-0290-81602/", 140, 320, 19, WHITE);
+
+		DrawText("points sfx:", 20, 360, 20, WHITE);
+		DrawText("https://pixabay.com/es/sound-effects/cute-level-up-3-189853/", 140, 360, 19, WHITE);
+
+		DrawText("click sfx:", 20, 400, 20, WHITE);
+		DrawText("https://www.zapsplat.com/music/apple-computer-mouse-click-1/", 120, 400, 19, WHITE);
+
+		DrawText("game over sfx:", 20, 440, 20, WHITE);
+		DrawText("https://www.zapsplat.com/music/8-bit-game-over-80s", 200, 440, 19, WHITE);
+		DrawText("-arcade-simple-alert-notification-for-game-1/", 200, 460, 19, WHITE);
+
+		DrawText("EXIT", static_cast<int>(Globals::Screen.size.x) / 2 - 20, 515 , 20, WHITE);
 	}
 
 	void unloadCredits()
@@ -69,7 +88,7 @@ namespace Credits
 		returnBttn.buttonFrame = 0;
 		returnBttn.buttonText = new Texture2D[returnBttn.amountOfFrames];
 		returnBttn.buttonText[0] = LoadTexture("res/menu/base_button.png");
-		returnBttn.position = { (Globals::Screen.size.x / 2 - (returnBttn.buttonText[0].width / 2)), 200 };
+		returnBttn.position = { (Globals::Screen.size.x / 2 - (returnBttn.buttonText[0].width / 2)), 500 };
 
 	}
 }
