@@ -199,16 +199,39 @@ namespace Game
 
 	void colision(player::createPlayer& player)
 	{
-		bool collisionTop = collisions::rectangleRectangle(static_cast<float>(player.playerbody.x), static_cast<float>(player.playerbody.y),
+		//bool collisionTop = collisions::rectangleRectangle(static_cast<float>(player.playerbody.x), static_cast<float>(player.playerbody.y),
+		//	static_cast<float>(player.playerbody.width), static_cast<float>(player.playerbody.height),
+		//	static_cast<float>(obstacle.position.x), static_cast<float>(obstacle.position.y), static_cast<float>(obstacle.width),
+		//	static_cast<float>(obstacle.topHeight));
+		//
+		//bool collisionBottom = collisions::rectangleRectangle(static_cast<float>(player.playerbody.x), static_cast<float>(player.playerbody.y),
+		//	static_cast<float>(player.playerbody.width), static_cast<float>(player.playerbody.height),
+		//	static_cast<float>(obstacle.position.x), static_cast<float>(obstacle.position.y), static_cast<float>(obstacle.width),
+		//	static_cast<float>(obstacle.bottomHeight));
+		//
+		//if (collisionTop || collisionBottom)
+		//{
+		//	initObstacle(obstacle);
+		//	player.lives--;
+		//	pause = true;
+		//}
+		
+		bool collisionTop = collisions::rectangleRectangle(
+			static_cast<float>(player.playerbody.x), static_cast<float>(player.playerbody.y),
 			static_cast<float>(player.playerbody.width), static_cast<float>(player.playerbody.height),
-			static_cast<float>(obstacle.position.x), static_cast<float>(obstacle.position.y), static_cast<float>(obstacle.width),
-			static_cast<float>(obstacle.topHeight));
+			static_cast<float>(obstacle.position.x), 0.0f, // Top obstacle siempre empieza desde y = 0
+			static_cast<float>(obstacle.width), static_cast<float>(obstacle.topHeight)
+		);
 
-		bool collisionBottom = collisions::rectangleRectangle(static_cast<float>(player.playerbody.x), static_cast<float>(player.playerbody.y),
+		// Colisión con el obstáculo inferior
+		bool collisionBottom = collisions::rectangleRectangle(
+			static_cast<float>(player.playerbody.x), static_cast<float>(player.playerbody.y),
 			static_cast<float>(player.playerbody.width), static_cast<float>(player.playerbody.height),
-			static_cast<float>(obstacle.position.x), static_cast<float>(obstacle.position.y), static_cast<float>(obstacle.width),
-			static_cast<float>(obstacle.bottomHeight));
+			static_cast<float>(obstacle.position.x), static_cast<float>(obstacle.topHeight + obstacle.gap), // Inicio del obstáculo inferior
+			static_cast<float>(obstacle.width), static_cast<float>(obstacle.bottomHeight)
+		);
 
+		// Si hay colisión con cualquiera de los dos, reinicia el obstáculo
 		if (collisionTop || collisionBottom)
 		{
 			initObstacle(obstacle);
