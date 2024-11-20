@@ -14,7 +14,7 @@
 namespace Menu
 {
 
-	const float ver = 0.4f;
+	const float ver = 1.0f;
 
 	button::createButton playBttn;
 	button::createButton play2Bttn;
@@ -50,9 +50,8 @@ namespace Menu
 		pointer.x = pointerPosition.x;
 		pointer.y = pointerPosition.y;
 
-		//DrawText("Flapping Pumkin", 50, 50, 50, WHITE);
 
-		DrawText(TextFormat("Flapping Pumkin"), static_cast<int>(Globals::Screen.size.x / 2 - 200 ), 80, 50, WHITE);
+		DrawText(TextFormat("Fliying Ghost"), static_cast<int>(Globals::Screen.size.x / 2 - 150 ), 80, 50, WHITE);
 		if (collisions::rectangleRectangle(playBttn.position.x, playBttn.position.y, static_cast<float>(playBttn.buttonText[0].width), static_cast<float>(playBttn.buttonText[0].height), pointerPosition.x, pointerPosition.y, pointer.width, pointer.height))
 		{
 			if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))

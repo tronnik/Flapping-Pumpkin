@@ -49,8 +49,8 @@ namespace Game
 	float scrolling4 = 0.0f;
 	float scrolling5 = 0.0f;
 
-	Texture2D obctacleTop;
-	Texture2D obctacleBottom;
+	Texture2D obsctacleTop;
+	Texture2D obsctacleBottom;
 
 	Music gameplayMusic;
 	Sound crushSfx;
@@ -95,8 +95,8 @@ namespace Game
 		background4 = LoadTexture("res/game/enviroment/layers/5.png");
 		background5 = LoadTexture("res/game/enviroment/layers/7.png");
 
-		obctacleBottom = LoadTexture("res/game/obstacle/hand_1.png");
-		obctacleTop = LoadTexture("res/game/obstacle/hand_2.png");
+		obsctacleBottom = LoadTexture("res/game/obstacle/rope1.png");
+		obsctacleTop = LoadTexture("res/game/obstacle/rope1.png");
 
 		player::loadSfxPlayer();
 
@@ -170,7 +170,6 @@ namespace Game
 				if (scrolling3 <= -background3.width / 2) scrolling3 = 0;
 				if (scrolling4 <= -background4.width / 2) scrolling4 = 0;
 				if (scrolling5 <= -background5.width / 2) scrolling5 = 0;
-
 
 				//Animation player 1
 				if (ghostFramesCounter >= (60 / ghostFramesSpeed ))
@@ -279,13 +278,16 @@ namespace Game
 
 		DrawTextureEx(background5, Vector2{ scrolling5, 20 }, 0.0f, 0.5f, WHITE);
 		DrawTextureEx(background5, Vector2{ background5.width / 2 + scrolling5, 20 }, 0.0f, 0.5f, WHITE);
+		
+		Rectangle sourceTop = { 0, 0, static_cast<float>(obsctacleTop.width), static_cast<float>(obsctacleTop.height) };
+		Rectangle destTop = { obstacle.position.x, 0.0f, static_cast<float>(obstacle.width), static_cast<float>(obstacle.topHeight) };
+		DrawTexturePro(obsctacleTop, sourceTop, destTop, Vector2{ 0, 0 }, 0.0f, WHITE);
+		
+		Rectangle sourceBottom = { 0, 0, static_cast<float>(obsctacleBottom.width), static_cast<float>(obsctacleBottom.height) };
+		Rectangle destBottom = { obstacle.position.x, static_cast<float>(obstacle.topHeight + obstacle.gap), static_cast<float>(obstacle.width), static_cast<float>(obstacle.bottomHeight) };
+		DrawTexturePro(obsctacleBottom, sourceBottom, destBottom, Vector2{ 0, 0 }, 0.0f, WHITE);
 
 		
-		DrawRectangle(static_cast<int>(obstacle.position.x), 0, obstacle.width, obstacle.topHeight, RED);
-		DrawRectangle(static_cast<int>(obstacle.position.x), static_cast<int>(obstacle.topHeight + obstacle.gap), obstacle.width, obstacle.bottomHeight, RED);
-		
-		//DrawTextureEx(obctacleTop, Vector2{ obstacle.position.x, 0.0f }, 0.0f, 1.0f, WHITE);
-		//DrawTextureEx(obctacleBottom, Vector2{ obstacle.position.x, static_cast<float>(obstacle.topHeight) + obstacle.gap }, 0.0f, 1.0f, WHITE);
 
 		if (gameOver == true)
 		{
@@ -321,6 +323,8 @@ namespace Game
 		UnloadTexture(background3);
 		UnloadTexture(background4);
 		UnloadTexture(background5);
+		UnloadTexture(obsctacleBottom);
+		UnloadTexture(obsctacleTop);
 		UnloadMusicStream(gameplayMusic);
 		UnloadSound(crushSfx);
 		UnloadSound(gameOverSfx);
