@@ -126,6 +126,11 @@ namespace Game
 			}
 		}
 
+		if (IsKeyPressed(KEY_ESCAPE))
+		{
+			gameManager::currentscreen = gameManager::menu;
+		}
+
 		if (player1.lives <= 0)
 		{
 			SetSoundVolume(gameOverSfx, 0.1f);
@@ -294,13 +299,14 @@ namespace Game
 			DrawText("GameOver, Press enter to replay!", 230, 200, 20, WHITE);
 			DrawText(TextFormat(" max points %01i", player1.maxPoints), 220, 230, 20, WHITE);
 			DrawText("If not, Press space for menu!", 230, 260, 20, WHITE);
-			DrawText("or Press esc to exit!", 230, 290, 20, WHITE);
 		}
 		if (pause == true && gameOver == false)
 		{
 			DrawText("Pause On, Press SPACE to play!", 230, 200, 20, WHITE);
 			DrawText("Press spacebar to move player 1 (white ghost)", 230, 250, 20, WHITE);
 			DrawText("Press arrow up to move player 2 (red ghost)", 230, 300, 20, WHITE);
+			DrawText("Press esc to go to menu", 230, 350, 20, WHITE);
+
 		}
 
 		DrawTextureRec(ghost, ghostFrameRec, ghostPosition, WHITE);
@@ -310,8 +316,8 @@ namespace Game
 			DrawTextureRec(ghost, ghostFrameRec2, ghostPosition2, RED);
 		}
 
-		DrawText(TextFormat(" points %01i", player1.points), 10, 10, 30, RED);
-
+		DrawText(TextFormat(" points %01i", player1.points), 650, 10, 30, RED);
+		DrawText(TextFormat(" lifes %01i", player1.lives), 10, 10, 30, RED);
 
 	}
 
